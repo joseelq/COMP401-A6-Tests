@@ -286,7 +286,7 @@ public class A6JediTests {
 			fail("Exception thrown for legal arguments");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 2)");
-			fail();
+			fail(); 
 		}
 		
 		// Case: H == 3
@@ -301,7 +301,7 @@ public class A6JediTests {
 			fail("Exception thrown for legal arguments");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 3)");
-			fail();
+			fail(); 
 		}
 		
 		// Case: W == 2
@@ -329,6 +329,11 @@ public class A6JediTests {
 		// Case : W == 3
 		try {
 			pic = new GradientPicture(3, 1, BLACK, WHITE, BLACK, WHITE);
+			System.out.println(pic.getPixel(0, 0).getIntensity());
+			System.out.println(pic.getPixel(1, 0).getIntensity());
+			System.out.println(pic.getPixel(2, 0).getIntensity());
+			
+			
 			assertTrue(pic.getPixel(0, 0).equals(BLACK));
 			assertTrue(pic.getPixel(1, 0).equals(GRAY));
 			assertTrue(pic.getPixel(2, 0).equals(WHITE));
@@ -364,7 +369,7 @@ public class A6JediTests {
 						System.out.println("Failed: Exception thrown for legal arguments (Base Case 1, RED)");
 						fail("Exception thrown for legal arguments");
 					} catch (AssertionError e) {
-						System.out.println("Failed: upper_left/lower_right corner pixel should return color passed through constructor (Base Case 1, BLUE)");
+						System.out.println("Failed: upper_left/lower_right corner pixel should return color passed through constructor (Base Case 1, RED)");
 						fail("Incorrect blend");
 					}
 					
@@ -383,22 +388,57 @@ public class A6JediTests {
 		}
 
 		// Base Case 2
+		pic = new GradientPicture(4, 4, YELLOW, GREEN, GRAY, PURPLE);
+		
+		// corners check
 		try {
-			pic = new GradientPicture(4, 4, YELLOW, GREEN, GRAY, PURPLE);
 			
-			// corners check
 			assertTrue(pic.getPixel(0, 0).equals(GRAY));
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, corners)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, lower left corner)");
+			fail();
+		}
+		
+		try {
+			
 			assertTrue(pic.getPixel(0, 3).equals(YELLOW));
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, corners)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, upper left corner)");
+			fail();
+		}
+		
+		try {
+			
 			assertTrue(pic.getPixel(3, 0).equals(PURPLE));
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, corners)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, lower right corner)");
+			fail();
+		}
+		
+		try {		
+			
 			assertTrue(pic.getPixel(3, 3).equals(GREEN));
 			
 		} catch (Exception e) {
 			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, corners)");
 			fail("Exception thrown for legal arguments");
 		} catch (AssertionError e) {
-			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, corners)");
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, upper right corner)");
 			fail();
 		}
+		
 		
 		// inside check
 		try {
