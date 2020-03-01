@@ -23,8 +23,11 @@ public class A6JediTests {
 	public final static Pixel BLACK = Pixel.BLACK;
 	public final static Pixel MY_FAVORITE_COLOR = new ColorPixel(14.0 / 17, 7.0 / 17, 2.0 / 17);
 
-	final static Pixel[][] checkerboard = new Pixel[][] { { BLACK, WHITE, BLACK, WHITE },
-			{ WHITE, BLACK, WHITE, BLACK }, { BLACK, WHITE, BLACK, WHITE }, { WHITE, BLACK, WHITE, BLACK } };
+	final static Pixel[][] checkerboard = new Pixel[][] { 
+			{ BLACK, WHITE, BLACK, WHITE },
+			{ WHITE, BLACK, WHITE, BLACK }, 
+			{ BLACK, WHITE, BLACK, WHITE }, 
+			{ WHITE, BLACK, WHITE, BLACK } };
 
 	Picture pic, pic1, pic2;
 
