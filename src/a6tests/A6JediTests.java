@@ -1950,13 +1950,13 @@ public class A6JediTests {
 		}
 
 		// Base Cases
-		assertTrue(pic.getPixel(0, 0).equals(WHITE));
-		assertTrue(pic.getPixel(8, 6).equals(WHITE));
-		assertTrue(pic.getPixel(0, 7).equals(BLUE));
-		assertTrue(pic.getPixel(8, 7).equals(GREEN));
-		assertTrue(pic.getPixel(0, 13).equals(BLACK));
-		assertTrue(pic.getPixel(5, 10).equals(pic1.getPixel(5, 3)));
-		assertTrue(pic.getPixel(8, 13).equals(RED));
+		assertTrue(pic.getPixel(0, 13).equals(WHITE));
+		assertTrue(pic.getPixel(8, 7).equals(WHITE));
+		assertTrue(pic.getPixel(0, 6).equals(BLUE));
+		assertTrue(pic.getPixel(8, 6).equals(GREEN));
+		assertTrue(pic.getPixel(0, 0).equals(BLACK));
+		assertTrue(pic.getPixel(5, 3).equals(pic1.getPixel(5, 3)));
+		assertTrue(pic.getPixel(8, 0).equals(RED));
 
 		// Encapsulation Edge Cases (if required, makes the problem set a little more
 		// challenging)
@@ -2050,7 +2050,7 @@ public class A6JediTests {
 		// Edge Cases
 		// Unsupported Operations
 		try {
-			pic.paint(0, 0, BLUE);
+			pic.paint(0, 2, BLUE);
 
 			System.out.println("Failed: exception not thrown for unsupported operation");
 			fail("Exception not thrown for illegal argument");
@@ -2171,26 +2171,26 @@ public class A6JediTests {
 		}
 
 		// Base Cases
-		pic.paint(0, 2, RED, 0);
-		assertTrue(pic.getPixel(0, 2).equals(WHITE));
+		pic.paint(0, 0, RED, 0);
+		assertTrue(pic.getPixel(0, 0).equals(WHITE));
 
-		pic.paint(0, 2, RED, 1);
-		assertTrue(pic.getPixel(0, 2).equals(RED));
+		pic.paint(0, 0, RED, 1);
+		assertTrue(pic.getPixel(0, 0).equals(RED));
 
-		pic.paint(0, 2, BLUE, 0.5);
-		assertTrue(pic.getPixel(0, 2).equals(PURPLE));
+		pic.paint(0, 0, BLUE, 0.5);
+		assertTrue(pic.getPixel(0, 0).equals(PURPLE));
 
-		pic.paint(0, 2, WHITE, 0.5);
-		assertTrue(pic.getPixel(0, 2).equals(new ColorPixel(0.75, 0.5, 0.75)));
+		pic.paint(0, 0, WHITE, 0.5);
+		assertTrue(pic.getPixel(0, 0).equals(new ColorPixel(0.75, 0.5, 0.75)));
 
 		// Switching side of mutable picture
-		pic1 = new MutablePixelArrayPicture(1, 1, BLACK);
-		pic2 = new MonochromePicture(1, 2, ORANGE);
+		pic1 = new MutablePixelArrayPicture(2, 1, BLACK);
+		pic2 = new MonochromePicture(2, 2, ORANGE);
 		pic = new VerticalStackPicture(pic2, pic1);
 
 		// Edge Cases
 		try {
-			pic.paint(0, 2, MY_FAVORITE_COLOR);
+			pic.paint(0, 0, MY_FAVORITE_COLOR);
 
 			System.out.println("Failed: exception not thrown for unsupported operation");
 			fail("Exception not thrown for illegal argument");
@@ -2220,14 +2220,14 @@ public class A6JediTests {
 		}
 
 		// Base Cases
-		pic.paint(0, 0, RED, 0);
-		assertTrue(pic.getPixel(0, 0).equals(BLACK));
+		pic.paint(1, 2, RED, 0);
+		assertTrue(pic.getPixel(1, 2).equals(BLACK));
 
-		pic.paint(0, 0, RED);
-		assertTrue(pic.getPixel(0, 0).equals(RED));
+		pic.paint(1, 2, RED);
+		assertTrue(pic.getPixel(1, 2).equals(RED));
 
-		pic.paint(0, 0, BLUE, 0.5);
-		assertTrue(pic.getPixel(0, 0).equals(PURPLE));
+		pic.paint(1, 2, BLUE, 0.5);
+		assertTrue(pic.getPixel(1, 2).equals(PURPLE));
 
 		// Case 3 : 2 mutable pictures
 		pic1 = new MutablePixelArrayPicture(1, 1, BLUE);
@@ -2296,7 +2296,7 @@ public class A6JediTests {
 		// Edge Cases
 		// Unsupported Operations
 		try {
-			pic.paint(0, 0, 1, 1, MY_FAVORITE_COLOR);
+			pic.paint(0, 3, 1, 2, MY_FAVORITE_COLOR);
 
 			System.out.println("Failed: exception not thrown for unsupported operation");
 			fail("Exception not thrown for illegal argument");
@@ -2306,7 +2306,7 @@ public class A6JediTests {
 		}
 
 		try {
-			pic.paint(0, 1, 1, 3, MY_FAVORITE_COLOR, 0.5);
+			pic.paint(0, 2, 1, 0, MY_FAVORITE_COLOR, 0.5);
 
 			System.out.println("Failed: exception not thrown for unsupported operation");
 			fail("Exception not thrown for illegal argument");
@@ -2351,7 +2351,7 @@ public class A6JediTests {
 
 			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
 			fail("Exception not thrown for illegal argument");
-		} catch (IllegalArgumentException | UnsupportedOperationException e) {
+		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
 			incorrectException(e);
 		}
@@ -2361,7 +2361,7 @@ public class A6JediTests {
 
 			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
 			fail("Exception not thrown for illegal argument");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
 			incorrectException(e);
 		}
@@ -2371,7 +2371,7 @@ public class A6JediTests {
 
 			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
 			fail("Exception not thrown for illegal argument");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
 			incorrectException(e);
 		}
@@ -2381,7 +2381,7 @@ public class A6JediTests {
 
 			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
 			fail("Exception not thrown for illegal argument");
-		} catch (IllegalArgumentException | UnsupportedOperationException e) {
+		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
 			incorrectException(e);
 		}
@@ -2401,13 +2401,13 @@ public class A6JediTests {
 
 			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
 			fail("Exception not thrown for illegal argument");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
 			incorrectException(e);
 		}
 
-		try { // (0,2) (1,3) - legal coordinates, illegal factor
-			pic.paint(0, 2, 1, 3, MY_FAVORITE_COLOR, -0.1);
+		try { // (0,1) (1,0) - legal coordinates, illegal factor
+			pic.paint(0, 1, 1, 0, MY_FAVORITE_COLOR, -0.1);
 
 			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
 			fail("Exception not thrown for illegal argument");
@@ -2416,8 +2416,8 @@ public class A6JediTests {
 			incorrectException(e);
 		}
 
-		try { // (0,3) (1,2) - legal coordinates, illegal factor
-			pic.paint(0, 3, 1, 2, MY_FAVORITE_COLOR, 1.01);
+		try { // (0,0) (1,1) - legal coordinates, illegal factor
+			pic.paint(0, 0, 1, 1, MY_FAVORITE_COLOR, 1.01);
 
 			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
 			fail("Exception not thrown for illegal argument");
@@ -2451,17 +2451,20 @@ public class A6JediTests {
 		pic2 = new MutablePixelArrayPicture(2, 2, BLACK);
 		pic = new VerticalStackPicture(pic1, pic2);
 
-		pic.paint(0, 0, 1, 0, MY_FAVORITE_COLOR);
-		assertTrue(pic.getPixel(0, 0).equals(MY_FAVORITE_COLOR));
-		assertTrue(pic.getPixel(1, 0).equals(MY_FAVORITE_COLOR));
-		assertTrue(pic.getPixel(1, 1).equals(BLACK));
-		assertTrue(pic.getPixel(0, 2).equals(WHITE));
+		pic.paint(0, 3, 1, 3, MY_FAVORITE_COLOR);
+		assertTrue(pic.getPixel(0, 3).equals(MY_FAVORITE_COLOR));
+		assertTrue(pic.getPixel(1, 3).equals(MY_FAVORITE_COLOR));
+		assertTrue(pic.getPixel(1, 2).equals(BLACK));
+		assertTrue(pic.getPixel(0, 1).equals(WHITE));
+		
+		pic1 = new MonochromePicture(2, 2, WHITE);
+		pic2 = new MutablePixelArrayPicture(2, 2, BLACK);
+		pic = new VerticalStackPicture(pic2, pic1);
 
 		pic.paint(0, 1, 0, 0, BLACK, 1);
 		pic.paint(0, 1, 0, 1, WHITE, 0.5);
 		assertTrue(pic.getPixel(0, 0).equals(BLACK));
 		assertTrue(pic.getPixel(0, 1).equals(GRAY));
-		assertTrue(pic.getPixel(1, 0).equals(MY_FAVORITE_COLOR));
 		assertTrue(pic.getPixel(1, 1).equals(BLACK));
 		assertTrue(pic.getPixel(1, 2).equals(WHITE));
 
@@ -2469,7 +2472,7 @@ public class A6JediTests {
 		pic1 = new HorizontalStackPicture(new MutablePixelArrayPicture(2, 4, GREEN),
 				new MutablePixelArrayPicture(2, 4, GREEN));
 		pic2 = new MutablePixelArrayPicture(checkerboard);
-		pic = new VerticalStackPicture(pic1, pic2);
+		pic = new VerticalStackPicture(pic2, pic1);
 
 		// Base Cases
 		try {
@@ -2674,7 +2677,7 @@ public class A6JediTests {
 		// Base Cases
 		pic1 = new MonochromePicture(9, 3, BLACK);
 		pic2 = new MutablePixelArrayPicture(9, 6, WHITE);
-		pic = new VerticalStackPicture(pic2, pic1);
+		pic = new VerticalStackPicture(pic1, pic2);
 
 		try {
 			pic.paint(3, 3, 1, MY_FAVORITE_COLOR, 0.5); // should fail at (3, 2)
@@ -2686,7 +2689,9 @@ public class A6JediTests {
 			incorrectException(e);
 		}
 
-		pic = new VerticalStackPicture(pic2, pic1); // resets
+		pic1 = new MonochromePicture(9, 3, BLACK);
+		pic2 = new MutablePixelArrayPicture(9, 6, WHITE);
+		pic = new VerticalStackPicture(pic1, pic2); // resets
 		try {
 			pic.paint(4, 4, Math.sqrt(2), MY_FAVORITE_COLOR); // paints just box of (3,3), (3,5), (5,5), (5,3)
 
@@ -2740,7 +2745,7 @@ public class A6JediTests {
 
 		pic1 = new MutablePixelArrayPicture(checkerboard);
 		pic2 = new MutablePixelArrayPicture(4, 2, RED);
-		pic = new VerticalStackPicture(pic1, pic2); // 6 x 4
+		pic = new VerticalStackPicture(pic2, pic1); // 6 x 4
 
 		// Base Cases
 		try {
