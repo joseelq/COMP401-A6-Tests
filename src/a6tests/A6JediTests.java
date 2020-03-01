@@ -224,7 +224,8 @@ public class A6JediTests {
 			incorrectException(e);
 		}
 
-		{
+		// Edge Cases: Width || Height == 1
+		try {
 			pic = new GradientPicture(1, 1, RED, RED, RED, RED);
 			assertTrue(pic.getPixel(0, 0).equals(RED));
 
@@ -245,7 +246,15 @@ public class A6JediTests {
 
 			pic = new GradientPicture(1, 1, RED, BLUE, BLUE, RED);
 			assertTrue(pic.getPixel(0, 0).equals(PURPLE));
-
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (width = 1 && height == 1)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 1)");
+			fail();
+		}
+		
+		try {
 			pic = new GradientPicture(1, 2, BLACK, WHITE, WHITE, BLACK);
 			assertTrue(pic.getPixel(0, 0).equals(GRAY));
 			assertTrue(pic.getPixel(0, 1).equals(GRAY));
@@ -257,12 +266,30 @@ public class A6JediTests {
 			pic = new GradientPicture(1, 2, BLACK, WHITE, BLACK, WHITE);
 			assertTrue(pic.getPixel(0, 0).equals(GRAY));
 			assertTrue(pic.getPixel(0, 1).equals(GRAY));
-
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (width = 1 && height == 2)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 2)");
+			fail();
+		}
+		
+		try {
 			pic = new GradientPicture(1, 3, BLACK, BLACK, WHITE, WHITE);
 			assertTrue(pic.getPixel(0, 0).equals(WHITE));
 			assertTrue(pic.getPixel(0, 1).equals(GRAY));
 			assertTrue(pic.getPixel(0, 2).equals(BLACK));
-
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (width = 1 && height == 3)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 3)");
+			fail();
+		}
+		
+		try {
 			pic = new GradientPicture(2, 1, BLACK, WHITE, WHITE, BLACK);
 			assertTrue(pic.getPixel(0, 0).equals(GRAY));
 			assertTrue(pic.getPixel(1, 0).equals(GRAY));
@@ -274,51 +301,154 @@ public class A6JediTests {
 			pic = new GradientPicture(2, 1, BLACK, WHITE, BLACK, WHITE);
 			assertTrue(pic.getPixel(0, 0).equals(BLACK));
 			assertTrue(pic.getPixel(1, 0).equals(WHITE));
-
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (width = 2 && height == 1)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 2 && height == 1)");
+			fail();
+		}
+		
+		try {
 			pic = new GradientPicture(3, 1, BLACK, WHITE, BLACK, WHITE);
 			assertTrue(pic.getPixel(0, 0).equals(BLACK));
 			assertTrue(pic.getPixel(1, 0).equals(GRAY));
 			assertTrue(pic.getPixel(2, 0).equals(WHITE));
 
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (width = 3 && height == 1)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 3 && height == 1)");
+			fail();
 		}
 
 		// Base Cases
+		// Base Case 1
 		pic = new GradientPicture(3, 3, RED, BLUE, BLUE, RED);
 		for (int x = 0; x < pic.getWidth(); x++) {
 			for (int y = 0; y < pic.getHeight(); y++) {
 				if (x == y && x != 1) {
-					assertTrue(pic.getPixel(x, y).equals(BLUE));
+					try {
+						assertTrue(pic.getPixel(x, y).equals(BLUE));
+					} catch (Exception e) {
+						System.out.println("Failed: Exception thrown for legal arguments (Base Case 1, BLUE)");
+						fail("Exception thrown for legal arguments");
+					} catch (AssertionError e) {
+						System.out.println("Failed: upper_right/lower_left corner pixel should return color passed through constructor (Base Case 1, BLUE)");
+						fail("Incorrect blend");
+					}
+					
 				} else if (Math.abs(x - y) == 2) {
-					assertTrue(pic.getPixel(x, y).equals(RED));
+					try {
+						assertTrue(pic.getPixel(x, y).equals(RED));
+					} catch (Exception e) {
+						System.out.println("Failed: Exception thrown for legal arguments (Base Case 1, RED)");
+						fail("Exception thrown for legal arguments");
+					} catch (AssertionError e) {
+						System.out.println("Failed: upper_left/lower_right corner pixel should return color passed through constructor (Base Case 1, BLUE)");
+						fail("Incorrect blend");
+					}
+					
 				} else {
+					try {
 					assertTrue(pic.getPixel(x, y).equals(PURPLE));
+					} catch (Exception e) {
+						System.out.println("Failed: Exception thrown for legal arguments (Base Case 1, PURPLE)");
+						fail("Exception thrown for legal arguments");
+					} catch (AssertionError e) {
+						System.out.println("Failed: inside pixels should return proper blend (Base Case 1, PURPLE)");
+						fail("Incorrect blend");
+					}
 				}
 			}
 		}
 
-		{
+		// Base Case 2
+		try {
 			pic = new GradientPicture(4, 4, YELLOW, GREEN, GRAY, PURPLE);
+			
+			// corners check
 			assertTrue(pic.getPixel(0, 0).equals(GRAY));
 			assertTrue(pic.getPixel(0, 3).equals(YELLOW));
 			assertTrue(pic.getPixel(3, 0).equals(PURPLE));
 			assertTrue(pic.getPixel(3, 3).equals(GREEN));
-
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, corners)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, corners)");
+			fail();
+		}
+		
+		// inside check
+		try {
+			// top side
 			assertTrue(pic.getPixel(2, 3).equals(new ColorPixel(1.0 / 3.0, 1, 0)));
 			assertTrue(pic.getPixel(1, 3).equals(new ColorPixel(2.0 / 3.0, 1, 0)));
-
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, top side)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, top side)");
+			fail("Incorrect blend");
+		}
+		
+		try {
+			// bottom side
 			assertTrue(pic.getPixel(2, 0).equals(new ColorPixel(0.5, 1 / 6.0, 0.5)));
 			assertTrue(pic.getPixel(1, 0).equals(new ColorPixel(0.5, 1 / 3.0, 0.5)));
-
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, bottom side)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, bottom side)");
+			fail("Incorrect blend");
+		}
+		
+		try {
+			// right side
 			assertTrue(pic.getPixel(3, 2).equals(new ColorPixel(0.5 / 3, 2 / 3.0, 0.5 / 3)));
 			assertTrue(pic.getPixel(3, 1).equals(new ColorPixel(1.0 / 3, 1 / 3.0, 1.0 / 3)));
-
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, right side)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, right side)");
+			fail("Incorrect blend");
+		}
+		
+		try {
+			// left side
 			assertTrue(pic.getPixel(0, 2).equals(new ColorPixel(2.5 / 3, 2.5 / 3.0, 0.5 / 3)));
 			assertTrue(pic.getPixel(0, 1).equals(new ColorPixel(2.0 / 3, 2.0 / 3.0, 1.0 / 3)));
-
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, left side)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, left side)");
+			fail("Incorrect blend");
+		}
+		
+		try {
+			// inside square
 			assertTrue(pic.getPixel(2, 2).equals(new ColorPixel(7.0 / 18, 13.0 / 18, 0.5 / 3)));
 			assertTrue(pic.getPixel(1, 1).equals(new ColorPixel(5.0 / 9, 5.0 / 9, 1.0 / 3)));
 			assertTrue(pic.getPixel(2, 1).equals(new ColorPixel(4.0 / 9, 4.0 / 9, 1.0 / 3)));
 			assertTrue(pic.getPixel(1, 2).equals(new ColorPixel(11.0 / 18, 7.0 / 9, 0.5 / 3)));
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (Base Case 2, inside square)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, inside square)");
+			fail("Incorrect blend");
 		}
 
 		System.out.println("Passed!");
@@ -1491,22 +1621,11 @@ public class A6JediTests {
 
 		for (int x = 0; x <= 5; x++) {
 			for (int y = 0; y <= 3; y++) {
-				if (x == 5 && y == 3) {
-					try {
-						assertTrue(pic.getPixel(x, y).equals(PURPLE));
-
-					} catch (AssertionError e) {
-						System.out.println("Failed: pixel was painted outside of target circle");
-						fail();
-					}
-				} else {
-					try {
-						assertTrue(pic.getPixel(x, y).equals(PINK));
-
-					} catch (AssertionError e) {
-						System.out.println("Failed: pixel was painted outside of target circle");
-						fail();
-					}
+				try {
+					assertTrue(pic.getPixel(x, y).equals( (x == 5 && y == 3) ? PURPLE : PINK));
+				} catch (AssertionError e) {
+					System.out.println("Failed: pixel was painted outside of target circle");
+					fail();
 				}
 
 			}
@@ -2554,22 +2673,12 @@ public class A6JediTests {
 
 		for (int x = 0; x <= 3; x++) {
 			for (int y = 0; y <= 5; y++) {
-				if (x == 3 && y == 5) {
-					try {
-						assertTrue(pic.getPixel(x, y).equals(PURPLE));
+				try {
+					assertTrue(pic.getPixel(x, y).equals( (x == 3 && y == 5) ? PURPLE : PINK));
 
-					} catch (AssertionError e) {
-						System.out.println("Failed: pixel was painted outside of target circle");
-						fail();
-					}
-				} else {
-					try {
-						assertTrue(pic.getPixel(x, y).equals(PINK));
-
-					} catch (AssertionError e) {
-						System.out.println("Failed: pixel was painted outside of target circle");
-						fail();
-					}
+				} catch (AssertionError e) {
+					System.out.println("Failed: pixel was painted outside of target circle");
+					fail();
 				}
 
 			}
