@@ -1,4 +1,4 @@
-I know these are long, but they account for nearly every case.
+I know these are long, but they account for nearly every case an autograder might test for.
 
 The tests will print to the console about a failure the tested code has (esp exception testing),
 however, I'm too lazy to spell out all the other errors this test might find lmao, so keep that in mind and make sure
