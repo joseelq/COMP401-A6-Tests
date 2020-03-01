@@ -225,6 +225,19 @@ public class A6JediTests {
 		}
 
 		// Edge Cases: Width || Height == 1
+		// Case : W == H == 1
+		try {
+			pic = new GradientPicture(1, 1, RED, RED, RED, RED);
+			assertTrue(pic.getPixel(0, 0).equals(RED));
+
+		} catch (Exception e) {
+			System.out.println("Failed: Exception thrown for legal arguments (width = 1 && height == 1)");
+			fail("Exception thrown for legal arguments");
+		} catch (AssertionError e) {
+			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 1) - should return RED");
+			fail();
+		}
+		
 		try {
 			pic = new GradientPicture(1, 1, RED, RED, RED, RED);
 			assertTrue(pic.getPixel(0, 0).equals(RED));
@@ -250,10 +263,11 @@ public class A6JediTests {
 			System.out.println("Failed: Exception thrown for legal arguments (width = 1 && height == 1)");
 			fail("Exception thrown for legal arguments");
 		} catch (AssertionError e) {
-			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 1)");
+			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 1) - should return PURPLE");
 			fail();
 		}
 		
+		// Case : H == 2
 		try {
 			pic = new GradientPicture(1, 2, BLACK, WHITE, WHITE, BLACK);
 			assertTrue(pic.getPixel(0, 0).equals(GRAY));
@@ -275,6 +289,7 @@ public class A6JediTests {
 			fail();
 		}
 		
+		// Case: H == 3
 		try {
 			pic = new GradientPicture(1, 3, BLACK, BLACK, WHITE, WHITE);
 			assertTrue(pic.getPixel(0, 0).equals(WHITE));
@@ -289,6 +304,7 @@ public class A6JediTests {
 			fail();
 		}
 		
+		// Case: W == 2
 		try {
 			pic = new GradientPicture(2, 1, BLACK, WHITE, WHITE, BLACK);
 			assertTrue(pic.getPixel(0, 0).equals(GRAY));
@@ -310,6 +326,7 @@ public class A6JediTests {
 			fail();
 		}
 		
+		// Case : W == 3
 		try {
 			pic = new GradientPicture(3, 1, BLACK, WHITE, BLACK, WHITE);
 			assertTrue(pic.getPixel(0, 0).equals(BLACK));
