@@ -26,7 +26,7 @@ public class A6AdeptTests {
 	public final static Pixel MY_FAVORITE_COLOR = new ColorPixel(14.0 / 17, 7.0 / 17, 2.0 / 17);
 
 	Picture pic;
-	
+
 	@BeforeEach
 	public void setUp() {
 		System.out.println();
@@ -240,7 +240,7 @@ public class A6AdeptTests {
 	@Test
 	public void testMPAPWidthHeightConstructor() {
 		// Tests the form of the constructor that takes in width and height
-		System.out.println("Testing MPAP(Width, Height, InitValue) Constructor...");
+		System.out.println("Testing MPAP(Width, Height) Constructor...");
 
 		try {
 			MutablePixelArrayPicture.class.getConstructor(int.class, int.class);
@@ -301,6 +301,17 @@ public class A6AdeptTests {
 			fail("Exception thrown for legal argument");
 		}
 
+		try {
+			assertTrue(pic.getPixel(0, 0).equals(GRAY));
+
+		} catch (AssertionError e) {
+			System.out.println("Failed: intial value must be initialized to correct color");
+			fail("Exception thrown for legal argument");
+		} catch (Exception e) {
+			System.out.println("Failed: exception thrown for legal arguments/getPixel() is not working");
+			fail("Exception thrown for legal argument");
+		}
+
 		System.out.println("Passed!");
 
 	}
@@ -314,14 +325,14 @@ public class A6AdeptTests {
 					throw new ExposedAccessException(field);
 				}
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Failed: " + e.getMessage());
 			fail(e.getMessage());
 		}
 		System.out.println("Passed!");
 	}
-	
+
 	@Test
 	public void testMPAPDimensionGetters() {
 		// Tests getWidth() and getHeight()
@@ -335,51 +346,78 @@ public class A6AdeptTests {
 			fail("Dimension getters not found");
 		}
 
-		Pixel[][] pixels;
+		try {
+			Pixel[][] pixels;
+			pixels = new Pixel[][] { { RED } };
+			pic = new MutablePixelArrayPicture(pixels);
 
-		pixels = new Pixel[][] { { RED } };
-		pic = new MutablePixelArrayPicture(pixels);
+			assertEquals(1, pic.getWidth());
+			assertEquals(1, pic.getHeight());
 
-		assertEquals(1, pic.getWidth());
-		assertEquals(1, pic.getHeight());
+			pixels = new Pixel[][] { { BLUE }, { BLUE } };
+			pic = new MutablePixelArrayPicture(pixels);
 
-		pixels = new Pixel[][] { { BLUE }, { BLUE } };
-		pic = new MutablePixelArrayPicture(pixels);
+			assertEquals(2, pic.getWidth());
+			assertEquals(1, pic.getHeight());
 
-		assertEquals(2, pic.getWidth());
-		assertEquals(1, pic.getHeight());
+			pixels = new Pixel[][] { { RED, BLUE, GREEN } };
+			pic = new MutablePixelArrayPicture(pixels);
 
-		pixels = new Pixel[][] { { RED, BLUE, GREEN } };
-		pic = new MutablePixelArrayPicture(pixels);
+			assertEquals(1, pic.getWidth());
+			assertEquals(3, pic.getHeight());
 
-		assertEquals(1, pic.getWidth());
-		assertEquals(3, pic.getHeight());
+			pixels = new Pixel[][] { { BLACK, WHITE }, { YELLOW, PINK } };
+			pic = new MutablePixelArrayPicture(pixels);
 
-		pixels = new Pixel[][] { { BLACK, WHITE }, { YELLOW, PINK } };
-		pic = new MutablePixelArrayPicture(pixels);
+			assertEquals(2, pic.getWidth());
+			assertEquals(2, pic.getHeight());
+			
+		} catch (AssertionError e) {
+			System.out.println("Failed: picture must be initialized to correct width/height ( MPAP(pixel_array) )");
+			fail("Exception thrown for legal argument");
+		} catch (Exception e) {
+			System.out.println("Failed: exception thrown for legal arguments ( MPAP(width, height, pixel_array) )");
+			fail("Exception thrown for legal argument");
+		}
+		
+		try {
+			pic = new MutablePixelArrayPicture(2, 1, RED);
+			assertEquals(2, pic.getWidth());
+			assertEquals(1, pic.getHeight());
+			
+			pic = new MutablePixelArrayPicture(100, 6, BLUE);
+			assertEquals(100, pic.getWidth());
+			assertEquals(6, pic.getHeight());
+			
+		} catch (AssertionError e) {
+			System.out.println("Failed: picture must be initialized to correct width/height ( MPAP(width, height, init_value) )");
+			fail("Exception thrown for legal argument");
+		} catch (Exception e) {
+			System.out.println("Failed: exception thrown for legal arguments ( MPAP(width, height, init_value) )");
+			fail("Exception thrown for legal argument");
+		}
 
-		assertEquals(2, pic.getWidth());
-		assertEquals(2, pic.getHeight());
-
-		pic = new MutablePixelArrayPicture(2, 1, RED);
-		assertEquals(2, pic.getWidth());
-		assertEquals(1, pic.getHeight());
-
-		pic = new MutablePixelArrayPicture(100, 6, BLUE);
-		assertEquals(100, pic.getWidth());
-		assertEquals(6, pic.getHeight());
-
-		pic = new MutablePixelArrayPicture(20, 16);
-		assertEquals(20, pic.getWidth());
-		assertEquals(16, pic.getHeight());
+		try {
+			pic = new MutablePixelArrayPicture(20, 16);
+			assertEquals(20, pic.getWidth());
+			assertEquals(16, pic.getHeight());
+		} catch (AssertionError e) {
+			System.out.println("Failed: picture must be initialized to correct width/height ( MPAP(width, height) )");
+			fail("Exception thrown for legal argument");
+		} catch (Exception e) {
+			System.out.println("Failed: exception thrown for legal arguments ( MPAP(width, height) )");
+			fail("Exception thrown for legal argument");
+		}
 
 		System.out.println("Passed!");
 	}
 
 	@Test
 	public void testMPAPGetPixel() {
-		// Creates a picture from a 2D array of pixels with different pixels in various places.
-		// Tests that pixel returned from getPixel at those places returns the same pixels.
+		// Creates a picture from a 2D array of pixels with different pixels in various
+		// places.
+		// Tests that pixel returned from getPixel at those places returns the same
+		// pixels.
 
 		System.out.println("Testing MPAP GetPixel()...");
 		try {
@@ -451,8 +489,11 @@ public class A6AdeptTests {
 			}
 		}
 
-		Pixel[][] checkerboard = new Pixel[][] { { BLACK, WHITE, BLACK, WHITE }, { WHITE, BLACK, WHITE, BLACK },
-				{ BLACK, WHITE, BLACK, WHITE }, { WHITE, BLACK, WHITE, BLACK } };
+		Pixel[][] checkerboard = new Pixel[][] { 
+			{ BLACK, WHITE, BLACK, WHITE }, 
+			{ WHITE, BLACK, WHITE, BLACK },
+			{ BLACK, WHITE, BLACK, WHITE }, 
+			{ WHITE, BLACK, WHITE, BLACK } };
 
 		Picture board = new MutablePixelArrayPicture(checkerboard);
 
@@ -534,7 +575,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try {
 			pic.paint(6, 1, MY_FAVORITE_COLOR, 0.5);
 
@@ -574,7 +615,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try {
 			pic.paint(1, 4, null);
 
@@ -746,7 +787,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try { // (-1,3) (3,1) - legal factor, illegal coordinates
 			pic.paint(-1, 3, 3, 1, MY_FAVORITE_COLOR, 0.95);
 
@@ -756,7 +797,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try { // (1,4) (3,1) - legal factor, illegal coordinates
 			pic.paint(1, 4, 3, 1, MY_FAVORITE_COLOR, 0.95);
 
@@ -766,7 +807,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try { // (1,3) (4,1) - legal factor, illegal coordinates
 			pic.paint(1, 3, 4, 1, MY_FAVORITE_COLOR, 0.95);
 
@@ -786,7 +827,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try { // (1,1) (3,3) - legal coordinates, illegal pixel
 			pic.paint(1, 1, 3, 3, null);
 
@@ -862,13 +903,13 @@ public class A6AdeptTests {
 		for (int i = 1; i < 3; i++) {
 			assertTrue(pic.getPixel(i, i).equals(new GrayPixel(0.25)));
 		}
-		
+
 		pic.paint(1, 1, 1, 1, YELLOW, 1);
 		assertTrue(pic.getPixel(1, 1).equals(YELLOW));
 		for (int i = 0; i < 2; i++) {
-			assertFalse(pic.getPixel(i, i).equals( (i == 1) ? BLACK : YELLOW));
-			assertFalse(pic.getPixel(i, i+1).equals(YELLOW));
-			assertFalse(pic.getPixel(i+1, i).equals(YELLOW));
+			assertFalse(pic.getPixel(i, i).equals((i == 1) ? BLACK : YELLOW));
+			assertFalse(pic.getPixel(i, i + 1).equals(YELLOW));
+			assertFalse(pic.getPixel(i + 1, i).equals(YELLOW));
 		}
 
 		System.out.println("Passed!");
@@ -886,7 +927,7 @@ public class A6AdeptTests {
 			System.out.println("Failed: one or more paint methods not found");
 			fail("Paint method(s) not found");
 		}
-		
+
 		pic = new MutablePixelArrayPicture(9, 11, BLUE);
 		// Edge Cases
 		try {
@@ -898,7 +939,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try {
 			pic.paint(4, 4, -1, MY_FAVORITE_COLOR, 0.5);
 
@@ -908,7 +949,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try {
 			pic.paint(4, 4, 2.0, MY_FAVORITE_COLOR, -2);
 
@@ -918,7 +959,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try {
 			pic.paint(4, 4, 2.0, MY_FAVORITE_COLOR, 3.01);
 
@@ -927,8 +968,8 @@ public class A6AdeptTests {
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
 			incorrectException();
-		}		
-		
+		}
+
 		try {
 			pic.paint(4, 4, 1, null);
 
@@ -938,7 +979,7 @@ public class A6AdeptTests {
 		} catch (Exception e) {
 			incorrectException();
 		}
-		
+
 		try {
 			pic.paint(4, 4, 1, null, 0.5);
 
@@ -952,39 +993,38 @@ public class A6AdeptTests {
 		// Base Cases
 		try {
 			pic.paint(4, 5, 0, MY_FAVORITE_COLOR); // paints just (4,5)
-			
+
 			pic.paint(-1, -1, 1, MY_FAVORITE_COLOR); // should do nothing
 			pic.paint(0, -1, 1, MY_FAVORITE_COLOR); // paints just (0,0)
 			pic.paint(-1, 0, 1, MY_FAVORITE_COLOR); // paints just (0,0)
-			
+
 			pic.paint(9, 11, 1, MY_FAVORITE_COLOR); // should do nothing
 			pic.paint(9, 10, 1, MY_FAVORITE_COLOR); // paints just (8,10)
 			pic.paint(8, 11, 1, MY_FAVORITE_COLOR); // paints just (8,10)
-			
 
 		} catch (Exception e) {
 			System.out.println("Failed: exception thrown for legal arguments");
 			fail("Exception thrown for legal argument");
-		}	
-		
+		}
+
 		for (int x = 0; x < pic.getWidth(); x++) {
 			for (int y = 0; y < pic.getHeight(); y++) {
-				
+
 				if ((x == 0 && y == 0) || (x == 4 && y == 5) || (x == 8 && y == 10)) {
-					
+
 					try {
 						assertTrue(pic.getPixel(x, y).equals(MY_FAVORITE_COLOR));
-						
+
 					} catch (AssertionError e) {
 						System.out.println("Failed: pixel was not painted in target circle");
 						fail();
 					}
-					
+
 				} else {
-					
+
 					try {
 						assertTrue(pic.getPixel(x, y).equals(BLUE));
-						
+
 					} catch (AssertionError e) {
 						System.out.println("Failed: pixel was painted outside target circle at (" + x + "," + y + ")");
 						fail();
@@ -992,86 +1032,82 @@ public class A6AdeptTests {
 				}
 			}
 		}
-		
+
 		try {
-			pic.paint(4, 5, Math.sqrt(2), PINK); // paints in box (diagonals are 1 * sqrt(2));			
+			pic.paint(4, 5, Math.sqrt(2), PINK); // paints in box (diagonals are 1 * sqrt(2));
 
 		} catch (Exception e) {
 			System.out.println("Failed: exception thrown for legal arguments");
 			fail("Exception thrown for legal argument");
-		}	
-		
+		}
+
 		for (int x = 3; x <= 5; x++) {
 			for (int y = 4; y <= 6; y++) {
 				try {
 					assertTrue(pic.getPixel(x, y).equals(PINK));
-					
+
 				} catch (AssertionError e) {
 					System.out.println("Failed: pixel was not properly painted in target circle");
 					fail();
 				}
 			}
 		}
-		
+
 		try {
 			assertFalse(pic.getPixel(2, 4).equals(PINK));
-			
+
 		} catch (AssertionError e) {
 			System.out.println("Failed: pixel was painted outside target circle");
 			fail();
 		}
 
-		
-		
 		pic = new MutablePixelArrayPicture(9, 11, RED);
 		try {
-			
+
 			pic.paint(5, 4, 2.83, MY_FAVORITE_COLOR, 1); // radius = 2 * sqrt(2)
 			pic.paint(4, 5, 0, PINK, 0); // paints just (4,5)
-			
+
 			pic.paint(-1, -1, 1, BLUE, 0.5); // should do nothing
 			pic.paint(0, -1, 1, BLUE, 0.5); // paints just (0,0)
 			pic.paint(-1, 0, 1, BLUE, 0.5); // paints just (0,0)
-			
+
 			pic.paint(9, 11, 1, BLUE, 0.5); // should do nothing
 			pic.paint(9, 10, 1, BLUE, 0.5); // paints just (8,10)
 			pic.paint(8, 11, 1, BLUE, 0.5); // paints just (8,10)
-			
 
 		} catch (Exception e) {
 			System.out.println("Failed: exception thrown for legal arguments");
 			fail("Exception thrown for legal argument");
-		}	
-		
+		}
+
 		for (int x = 0; x < pic.getWidth(); x++) {
 			for (int y = 0; y < pic.getHeight(); y++) {
-				
+
 				if ((x == 0 && y == 0) || (x == 8 && y == 10)) {
-					
+
 					try {
 						assertTrue(pic.getPixel(x, y).equals(PURPLE));
-						
+
 					} catch (AssertionError e) {
 						System.out.println("Failed: pixel was not properly painted in target circle");
 						fail();
 					}
-					
-				} else if ( x >= 3 && x <= 7 && y >= 2 && y <= 6 ) {
-					
+
+				} else if (x >= 3 && x <= 7 && y >= 2 && y <= 6) {
+
 					try {
 						assertTrue(pic.getPixel(x, y).equals(MY_FAVORITE_COLOR));
-						
+
 					} catch (AssertionError e) {
 						System.out.println("Failed: pixel was not properly painted in target circle");
 						fail();
 					}
-					
-					
+
 				} else {
-					
+
 					try {
 						assertTrue(pic.getPixel(x, y).equals(RED));
-						
+
 					} catch (AssertionError e) {
 						System.out.println("Failed: pixel was painted outside target circle at (" + x + "," + y + ")");
 						fail();
@@ -1079,43 +1115,43 @@ public class A6AdeptTests {
 				}
 			}
 		}
-		
+
 		try {
 			pic.paint(5, 4, 20, ORANGE);
-			
+
 		} catch (Exception e) {
 			System.out.println("Failed: exception thrown for legal arguments");
 			fail("Exception thrown for legal argument");
-		}	
-		
+		}
+
 		for (int x = 0; x < pic.getWidth(); x++) {
 			for (int y = 0; y < pic.getHeight(); y++) {
 				assertTrue(pic.getPixel(x, y).equals(ORANGE));
 			}
 		}
-		
+
 		try {
 			pic.paint(5, 4, 20, YELLOW, 0.5);
-			
+
 		} catch (Exception e) {
 			System.out.println("Failed: exception thrown for legal arguments");
 			fail("Exception thrown for legal argument");
-		}	
-		
-		Pixel mix = new ColorPixel(1, 14.0/17, 0);
+		}
+
+		Pixel mix = new ColorPixel(1, 14.0 / 17, 0);
 		for (int x = 0; x < pic.getWidth(); x++) {
 			for (int y = 0; y < pic.getHeight(); y++) {
 				assertTrue(pic.getPixel(x, y).equals(mix));
 			}
 		}
-		
+
 		System.out.println("Passed!");
 	}
 
 	@Test
 	public void testMonochromePictureConstructor() {
-		
-		System.out.println("Testing MonochromePicture(Width, Height, InitValue) Constructor...");
+
+		System.out.println("Testing MonochromePicture Constructor...");
 		try {
 			MonochromePicture.class.getConstructor(int.class, int.class, Pixel.class);
 		} catch (Exception e) {
@@ -1187,22 +1223,22 @@ public class A6AdeptTests {
 
 		System.out.println("Passed!");
 	}
-	
+
 	@Test
 	public void testMonochromePictureFieldEncapsulation() {
 		System.out.println("Testing MonochromePicture Field Encapsulation...");
-		try {	
+		try {
 			for (Field field : MonochromePicture.class.getDeclaredFields()) {
-				
+
 				if (field.getType().equals(Pixel[][].class)) {
 					throw new DisallowedFieldException(Pixel[][].class);
 				}
-				
+
 				if (!field.toString().contains("private") && !field.toString().contains("protected")) {
 					throw new ExposedAccessException(field);
 				}
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Failed: " + e.getMessage());
 			fail(e.getMessage());
@@ -1210,7 +1246,6 @@ public class A6AdeptTests {
 		System.out.println("Passed!");
 	}
 
-	
 	@Test
 	public void testMonochromePictureGetPixel() {
 		// Tests that the pixel returned by getPixel is the same one given to the
@@ -1289,7 +1324,6 @@ public class A6AdeptTests {
 		System.out.println("Passed!");
 	}
 
-	
 	@Test
 	public void testMonochromePicturePaintFail() {
 		// Tests that trying to paint on a monochrome picture throws an exception of the
@@ -1300,8 +1334,7 @@ public class A6AdeptTests {
 			MonochromePicture.class.getMethod("paint", int.class, int.class, Pixel.class);
 			MonochromePicture.class.getMethod("paint", int.class, int.class, Pixel.class, double.class);
 			MonochromePicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class);
-			MonochromePicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class,
-					double.class);
+			MonochromePicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class, double.class);
 			MonochromePicture.class.getMethod("paint", int.class, int.class, double.class, Pixel.class);
 			MonochromePicture.class.getMethod("paint", int.class, int.class, double.class, Pixel.class, double.class);
 		} catch (Exception e) {
@@ -1379,7 +1412,6 @@ public class A6AdeptTests {
 		System.out.println("Passed!");
 	}
 
-	
 	@Test
 	public void testMonochromePictureDimensionGetters() {
 		// Tests getWidth() and getHeight()
@@ -1392,10 +1424,19 @@ public class A6AdeptTests {
 			System.out.println("Failed: dimension getters not found");
 			fail("Dimension getters not found");
 		}
-
-		pic = new MonochromePicture(2, 5, PURPLE);
-		assertEquals(2, pic.getWidth());
-		assertEquals(5, pic.getHeight());
+		
+		try {
+			pic = new MonochromePicture(2, 5, PURPLE);
+			assertEquals(2, pic.getWidth());
+			assertEquals(5, pic.getHeight());
+			
+		} catch (AssertionError e) {
+			System.out.println("Failed: picture must be initialized to correct width/height ");
+			fail("Exception thrown for legal argument");
+		} catch (Exception e) {
+			System.out.println("Failed: exception thrown for legal arguments");
+			fail("Exception thrown for legal argument");
+		}
 
 		pic = new MonochromePicture(100, 6, BLUE);
 		assertEquals(100, pic.getWidth());
@@ -1407,12 +1448,10 @@ public class A6AdeptTests {
 
 		System.out.println("Passed!");
 	}
-	
 
 	public static void incorrectException() { // writing this repeatedly is redundant asf
 		System.out.println("Failed: correct exception not thrown");
 		fail("Correct Exception not thrown");
 	}
-	
 
 }
