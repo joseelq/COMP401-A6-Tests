@@ -55,7 +55,7 @@ public class A6AdeptTests {
 
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -66,7 +66,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -77,7 +77,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -88,7 +88,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -99,7 +99,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -110,7 +110,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -121,7 +121,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -132,7 +132,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		// Base Cases
@@ -179,7 +179,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -189,7 +189,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -199,7 +199,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -209,7 +209,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -219,7 +219,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		// Base Cases
@@ -257,7 +257,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -267,7 +267,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -277,7 +277,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -287,7 +287,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		// Base Cases
@@ -436,7 +436,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -446,7 +446,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -456,7 +456,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -466,7 +466,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		assertTrue(pic.getPixel(0, 0).equals(GRAY));
@@ -543,7 +543,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -553,7 +553,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -563,7 +563,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -573,7 +573,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -583,7 +583,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -593,7 +593,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -603,7 +603,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -613,7 +613,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -623,7 +623,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -633,7 +633,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		// Base Cases
@@ -694,7 +694,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (4,1) (5,3) - illegal ax
@@ -704,7 +704,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (-2,1) (-1,3) - illegal bx (must be left to right, so ax cannot be adjusted
@@ -715,7 +715,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,1) (4,3) - illegal bx
@@ -725,7 +725,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,-1) (3,3) - illegal ay
@@ -735,7 +735,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,4) (3,3) - illegal ay
@@ -745,7 +745,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,1) (3,-1) - illegal by
@@ -755,7 +755,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,1) (3,-1) - illegal by
@@ -765,7 +765,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,1) (3,3) - legal coordinates, illegal factor
@@ -775,7 +775,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,3) (3,1) - legal coordinates, illegal factor
@@ -785,7 +785,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (-1,3) (3,1) - legal factor, illegal coordinates
@@ -795,7 +795,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,4) (3,1) - legal factor, illegal coordinates
@@ -805,7 +805,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,3) (4,1) - legal factor, illegal coordinates
@@ -815,7 +815,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,3) (3,1) - legal factor, illegal coordinates
@@ -825,7 +825,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,1) (3,3) - legal coordinates, illegal pixel
@@ -835,7 +835,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try { // (1,3) (3,1) - legal coordinates and factor, illegal pixel
@@ -845,7 +845,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		// Base Cases
@@ -937,7 +937,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -947,7 +947,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -957,7 +957,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -967,7 +967,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -977,7 +977,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -987,7 +987,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		// Base Cases
@@ -1167,7 +1167,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1177,7 +1177,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1187,7 +1187,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1197,7 +1197,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1207,7 +1207,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		// Base Cases
@@ -1268,7 +1268,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1278,7 +1278,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1288,7 +1288,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1298,7 +1298,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		// Base Cases
@@ -1351,7 +1351,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1362,7 +1362,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1373,7 +1373,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1384,7 +1384,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1395,7 +1395,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		try {
@@ -1406,7 +1406,7 @@ public class A6AdeptTests {
 			fail("Exception not thrown for illegal argument");
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException();
+			incorrectException(e);
 		}
 
 		System.out.println("Passed!");
@@ -1449,8 +1449,10 @@ public class A6AdeptTests {
 		System.out.println("Passed!");
 	}
 
-	public static void incorrectException() { // writing this repeatedly is redundant asf
+	public static void incorrectException(Exception e) { // writing this repeatedly is redundant asf
 		System.out.println("Failed: correct exception not thrown");
+		e.printStackTrace();
+		System.out.println();
 		fail("Correct Exception not thrown");
 	}
 
