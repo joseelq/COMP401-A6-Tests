@@ -26,7 +26,6 @@ public class A6JediTests extends A6Helper{
 			constructorNotFound();
 		}
 
-		Picture pic;
 		// Edge Cases
 		try {
 			pic = new GradientPicture(0, 1, ORANGE, RED, RED, RED);
@@ -487,63 +486,9 @@ public class A6JediTests extends A6Helper{
 		// Tests that trying to paint on a monochrome picture throws an exception of the
 		// appropriate type
 		classPaintFail(GradientPicture.class);
-		
 		pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
-		try {
-			pic.paint(0, 0, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
+		testPaintFail();
 		
-		try {
-			pic.paint(3, 4, BLUE, 0.5);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic.paint(0, 0, 2, 2, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic.paint(0, 0, 1, 1, BLUE, 0.5);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic.paint(1, 1, 1.0, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic.paint(1, 1, 1.0, GREEN, 0.4);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		System.out.println("Passed!");
 	}
 
 	@Test
@@ -1759,7 +1704,7 @@ public class A6JediTests extends A6Helper{
 			pic = new VerticalStackPicture(pic2, pic1);
 			pic2.paint(2, 2, ORANGE);
 
-			assertFalse(pic2.getPixel(2, 2).equals(pic.getPixel(2, 10)));
+			assertFalse(pic2.getPixel(2, 2).equals(pic.getPixel(2, 2)));
 		} catch (AssertionError e) {
 			System.out.println("Note: source pictures not properly encapsulated");
 //			fail("Improper encapsulation");

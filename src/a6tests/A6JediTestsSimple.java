@@ -16,7 +16,7 @@ import a6.*;
 //1) GradientPicture getPixel() edge case where width or height == 1
 //2) Proper Encapsulation
 public class A6JediTestsSimple extends A6Helper{
-
+	
 	@Test
 	public void testGradientPictureConstructor() {
 		// Tests the constructor for GradientPicture

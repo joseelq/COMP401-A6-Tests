@@ -41,6 +41,7 @@ public class A6Helper {
 	}
 	
 	public void checkDimensionGetters(Class c) {
+		
 		System.out.println("Testing " + c.getSimpleName() + " Dimension Getters...");
 		try {
 			c.getMethod("getWidth");
@@ -52,6 +53,7 @@ public class A6Helper {
 	}
 	
 	public void checkGetPixel(Class c) {
+		
 		System.out.println("Testing " + c.getSimpleName() + " GetPixel()...");
 		try {
 			c.getMethod("getPixel", int.class, int.class);
@@ -62,6 +64,7 @@ public class A6Helper {
 	}
 	
 	public void classPaintFail(Class c) {
+		
 		System.out.println("Testing " + c.getSimpleName() + " Paint Fail...");
 
 		try { // checks to see if paint methods exist, even if they're unsupported
@@ -137,6 +140,7 @@ public class A6Helper {
 	}
 	
 	public void checkPaint(Class c, String key) {
+		
 		System.out.println("Testing " + c.getSimpleName() + " Paint() - " + key + "...");
 
 		try { // checks to see if paint methods exist
@@ -162,6 +166,7 @@ public class A6Helper {
 	}
 	
 	public void classFieldEncapsulation(Class c) {
+		
 		System.out.println("Testing " + c.getSimpleName() + " Field Encapsulation...");
 		try {
 			for (Field field : c.getDeclaredFields()) {

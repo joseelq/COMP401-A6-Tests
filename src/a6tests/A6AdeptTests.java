@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import a6.*;
 
-// MPAP = MutablePixelArrayPicture
+// MPAP = MutablePixelArrayPicture 
 
 public class A6AdeptTests extends A6Helper {
 
@@ -348,10 +348,8 @@ public class A6AdeptTests extends A6Helper {
 
 	@Test
 	public void testMPAPGetPixel() {
-		// Creates a picture from a 2D array of pixels with different pixels in various
-		// places.
-		// Tests that pixel returned from getPixel at those places returns the same
-		// pixels.
+		// Creates a picture from a 2D array of pixels with different pixels in various places.
+		// Tests that pixel returned from getPixel at those places returns the same pixels.
 		checkGetPixel(MutablePixelArrayPicture.class);
 		
 		// Edge Cases
