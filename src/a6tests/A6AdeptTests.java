@@ -62,12 +62,32 @@ public class A6AdeptTests extends A6Helper {
 		} catch (Exception e) {
 			incorrectExceptionCatch(e);
 		}
+		
+		try {
+			pixels = new Pixel[][] { null, { RED, RED } };
+			pic = new MutablePixelArrayPicture(pixels);
+
+			unthrownExceptionCatch("null element in argument (Pixel[])");
+		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
+			incorrectExceptionCatch(e);
+		}
+		
+		try {
+			pixels = new Pixel[][] { { RED, RED }, null };
+			pic = new MutablePixelArrayPicture(pixels);
+
+			unthrownExceptionCatch("null element in argument (Pixel[])");
+		} catch (IllegalArgumentException e) {
+		} catch (Exception e) {
+			incorrectExceptionCatch(e);
+		}
 
 		try {
 			pixels = new Pixel[][] { { RED, RED }, { RED, null } };
 			pic = new MutablePixelArrayPicture(pixels);
 
-			unthrownExceptionCatch("null element in argument");
+			unthrownExceptionCatch("null element in argument (Pixel)");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
 			incorrectExceptionCatch(e);
@@ -77,7 +97,7 @@ public class A6AdeptTests extends A6Helper {
 			pixels = new Pixel[][] { { null, RED }, { RED, RED } };
 			pic = new MutablePixelArrayPicture(pixels);
 
-			unthrownExceptionCatch("null element in argument");
+			unthrownExceptionCatch("null element in argument (Pixel)");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
 			incorrectExceptionCatch(e);
