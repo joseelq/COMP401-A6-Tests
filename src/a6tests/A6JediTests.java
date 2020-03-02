@@ -1444,6 +1444,8 @@ public class A6JediTests extends A6Helper{
 			incorrectExceptionCatch(e);
 		}
 
+		pic1 = new MonochromePicture(3, 9, BLACK);
+		pic2 = new MutablePixelArrayPicture(6, 9, WHITE);
 		pic = new HorizontalStackPicture(pic1, pic2); // resets
 		try {
 			pic.paint(4, 4, Math.sqrt(2), MY_FAVORITE_COLOR); // paints just box of (3,3), (3,5), (5,5), (5,3)
