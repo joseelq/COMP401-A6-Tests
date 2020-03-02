@@ -1688,6 +1688,7 @@ public class A6JediTests extends A6Helper{
 
 		// Encapsulation Edge Cases (if required, makes the problem set a little more
 		// challenging)
+		boolean encapsulated = true;
 		try {
 			pic2 = new MutablePixelArrayPicture(9, 5, WHITE);
 			pic = new VerticalStackPicture(pic1, pic2);
@@ -1696,8 +1697,8 @@ public class A6JediTests extends A6Helper{
 
 			assertFalse(pic2.getPixel(0, 1).equals(pic.getPixel(0, 1)));
 		} catch (AssertionError e) {
-			System.out.println("Note: source pictures not properly encapsulated");
-//			fail("Improper encapsulation");
+			System.out.println("Failed: source pictures not properly encapsulated");
+			encapsulated = false;
 		}
 
 		try {
@@ -1706,11 +1707,13 @@ public class A6JediTests extends A6Helper{
 
 			assertFalse(pic2.getPixel(2, 2).equals(pic.getPixel(2, 2)));
 		} catch (AssertionError e) {
-			System.out.println("Note: source pictures not properly encapsulated");
-//			fail("Improper encapsulation");
+			System.out.println("Failed: source pictures not properly encapsulated");
+			encapsulated = false;
 		}
 
-		System.out.println("Passed!");
+		if (encapsulated) {
+			System.out.println("Passed!");
+		}
 
 	}
 
