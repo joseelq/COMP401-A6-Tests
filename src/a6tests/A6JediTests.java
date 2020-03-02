@@ -9,32 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import a6.*;
 
-public class A6JediTests {
 
-	public final static Pixel RED = new ColorPixel(1.0, 0.0, 0.0);
-	public final static Pixel GREEN = new ColorPixel(0.0, 1.0, 0.0);
-	public final static Pixel BLUE = new ColorPixel(0.0, 0.0, 1.0);
-	public final static Pixel YELLOW = new ColorPixel(1.0, 1.0, 0.0);
-	public final static Pixel PURPLE = new ColorPixel(0.5, 0.0, 0.5);
-	public final static Pixel ORANGE = new ColorPixel(1.0, 165.0 / 255, 0.0);
-	public final static Pixel PINK = new ColorPixel(1.0, 192.0 / 255, 203.0 / 255);
-	public final static Pixel GRAY = new GrayPixel(0.5);
-	public final static Pixel WHITE = Pixel.WHITE;
-	public final static Pixel BLACK = Pixel.BLACK;
-	public final static Pixel MY_FAVORITE_COLOR = new ColorPixel(14.0 / 17, 7.0 / 17, 2.0 / 17);
-
-	final static Pixel[][] checkerboard = new Pixel[][] { 
-			{ BLACK, WHITE, BLACK, WHITE },
-			{ WHITE, BLACK, WHITE, BLACK }, 
-			{ BLACK, WHITE, BLACK, WHITE }, 
-			{ WHITE, BLACK, WHITE, BLACK } };
-
-	Picture pic, pic1, pic2;
-
-	@BeforeEach
-	public void setUp() {
-		System.out.println();
-	}
+// To completely pass these tests, each Picture class must be fully functional in order of assignment 
+// (i.e., HorizontalStackPicture tests will use GradientPictures, VerticalStackPicture tests
+// will use both)
+public class A6JediTests extends A6Helper{
 
 	@Test
 	public void testGradientPictureConstructor() {
@@ -44,8 +23,7 @@ public class A6JediTests {
 			GradientPicture.class.getConstructor(int.class, int.class, Pixel.class, Pixel.class, Pixel.class,
 					Pixel.class);
 		} catch (Exception e) {
-			System.out.println("Failed: no such constructor found");
-			fail("No such constructor found");
+			constructorNotFound();
 		}
 
 		Picture pic;
@@ -53,81 +31,73 @@ public class A6JediTests {
 		try {
 			pic = new GradientPicture(0, 1, ORANGE, RED, RED, RED);
 
-			System.out.println("Failed: exception not thrown for illegal width");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("illegal width");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic = new GradientPicture(-1, 1, ORANGE, RED, RED, RED);
 
-			System.out.println("Failed: exception not thrown for illegal width");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("illegal width");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic = new GradientPicture(1, -2, YELLOW, YELLOW, YELLOW, YELLOW);
 
-			System.out.println("Failed: exception not thrown for illegal height");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("illegal height");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic = new GradientPicture(1, 0, YELLOW, YELLOW, YELLOW, YELLOW);
 
-			System.out.println("Failed: exception not thrown for illegal height");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("illegal height");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic = new GradientPicture(2, 2, null, WHITE, BLACK, BLUE);
 
-			System.out.println("Failed: exception not thrown for illegal upper_left pixel value");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("illegal upper_left pixel value");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic = new GradientPicture(2, 2, GRAY, null, BLACK, BLUE);
 
-			System.out.println("Failed: exception not thrown for illegal upper_right pixel value");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("illegal upper_right pixel value");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic = new GradientPicture(2, 2, GRAY, BLACK, null, BLUE);
 
-			System.out.println("Failed: exception not thrown for illegal lower_left pixel value");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("illegal lower_left pixel value");
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic = new GradientPicture(2, 2, GRAY, BLACK, BLUE, null);
 
-			System.out.println("Failed: exception not thrown for illegal lower_right pixel value");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("illegal lower_right pixel value");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -138,7 +108,7 @@ public class A6JediTests {
 			pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
 
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		System.out.println("Passed!");
@@ -147,80 +117,52 @@ public class A6JediTests {
 
 	@Test
 	public void testGradientPictureFieldEncapsulation() {
-		System.out.println("Testing GradientPicture Field Encapsulation...");
-		try {
-			for (Field field : GradientPicture.class.getDeclaredFields()) {
-
-				if (field.getType().equals(Pixel[][].class)) {
-					throw new DisallowedFieldException(Pixel[][].class);
-				} else if (!field.getType().equals(int.class) && !field.getType().equals(Pixel.class)) {
-					throw new DisallowedFieldException(field.getType());
-				}
-
-				if (!field.toString().contains("private") && !field.toString().contains("protected")) {
-					throw new ExposedAccessException(field);
-				}
-			}
-
-		} catch (Exception e) {
-			System.out.println("Failed: " + e.toString());
-			fail(e.getMessage());
-		}
-		System.out.println("Passed!");
+		classFieldEncapsulation(GradientPicture.class);
 	}
 
 	@Test
 	public void testGradientPictureGetPixel() {
 		// Tests that the pixel returned by getPixel is the same one given to the
 		// constructor
-		System.out.println("Testing GradientPicture GetPixel()...");
-		try {
-			GradientPicture.class.getMethod("getPixel", int.class, int.class);
-		} catch (Exception e) {
-			System.out.println("Failed: getPixel() not found");
-			fail("Method not found");
-		}
+		checkGetPixel(GradientPicture.class);
+
 
 		// Edge Cases
 		pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
 		try {
 			pic.getPixel(-1, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(5, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(4, -1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(4, 5);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Edge Cases: Width || Height == 1
@@ -231,7 +173,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 0).equals(RED));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(width = 1 && height == 1)");
+			legalArgumentExceptionCatch(e, "(width = 1 && height == 1)");
 		} catch (AssertionError e) {
 			if (!pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
 				System.out.println("Failed: does not account for width = 1 or height = 1");
@@ -262,7 +204,7 @@ public class A6JediTests {
 			pic = new GradientPicture(1, 1, RED, BLUE, BLUE, RED);
 			assertTrue(pic.getPixel(0, 0).equals(PURPLE));
 		} catch (Exception e) {
-			legalArgumentException(e, "(width = 1 && height == 1)");
+			legalArgumentExceptionCatch(e, "(width = 1 && height == 1)");
 		} catch (AssertionError e) {
 			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
 				System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height = 1) - should return PURPLE");
@@ -281,7 +223,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 1).equals(GRAY));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(width = 1 && height == 2)");
+			legalArgumentExceptionCatch(e, "(width = 1 && height == 2)");
 		} catch (AssertionError e) {
 			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
 				System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 2)");
@@ -297,7 +239,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 0).equals(BLACK));
 			assertTrue(pic.getPixel(0, 1).equals(WHITE));
 		} catch (Exception e) {
-			legalArgumentException(e, "(width = 1 && height == 2)");
+			legalArgumentExceptionCatch(e, "(width = 1 && height == 2)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 2)");
 			if (pic.getPixel(0, 0).equals(WHITE) && pic.getPixel(0, 1).equals(BLACK)) {
@@ -316,7 +258,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 2).equals(WHITE));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(width = 1 && height == 3)");
+			legalArgumentExceptionCatch(e, "(width = 1 && height == 3)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 3)");
 			if (pic.getPixel(0, 0).equals(WHITE) && pic.getPixel(0, 2).equals(BLACK)) {
@@ -338,7 +280,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(1, 0).equals(GRAY));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(width = 2 && height == 1)");
+			legalArgumentExceptionCatch(e, "(width = 2 && height == 1)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 2 && height == 1)");
 			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
@@ -355,7 +297,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 0).equals(BLACK));
 			assertTrue(pic.getPixel(1, 0).equals(WHITE));
 		} catch (Exception e) {
-			legalArgumentException(e, "(width = 2 && height == 1)");
+			legalArgumentExceptionCatch(e, "(width = 2 && height == 1)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 3)");
 			if (pic.getPixel(0, 0).equals(WHITE) && pic.getPixel(1, 0).equals(BLACK)) {
@@ -375,7 +317,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(2, 0).equals(WHITE));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(width = 3 && height == 1)");
+			legalArgumentExceptionCatch(e, "(width = 3 && height == 1)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 3 && height == 1)");
 			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
@@ -393,7 +335,7 @@ public class A6JediTests {
 					try {
 						assertTrue(pic.getPixel(x, y).equals(RED));
 					} catch (Exception e) {
-						legalArgumentException(e, "(Base Case 1, RED)");
+						legalArgumentExceptionCatch(e, "(Base Case 1, RED)");
 					} catch (AssertionError e) {
 						System.out.println(
 								"Failed: upper_right/lower_left corner pixel should return color passed through constructor (Base Case 1, BLUE)");
@@ -404,7 +346,7 @@ public class A6JediTests {
 					try {
 						assertTrue(pic.getPixel(x, y).equals(BLUE));
 					} catch (Exception e) {
-						legalArgumentException(e, "(Base Case 1, BLUE)");
+						legalArgumentExceptionCatch(e, "(Base Case 1, BLUE)");
 					} catch (AssertionError e) {
 						System.out.println("Failed: upper_left/lower_right corner pixel should return color passed through constructor (Base Case 1, RED)");
 						fail("Incorrect blend");
@@ -414,7 +356,7 @@ public class A6JediTests {
 					try {
 						assertTrue(pic.getPixel(x, y).equals(PURPLE));
 					} catch (Exception e) {
-						legalArgumentException(e, "(Base Case 1, PURPLE)");
+						legalArgumentExceptionCatch(e, "(Base Case 1, PURPLE)");
 					} catch (AssertionError e) {
 						System.out.println("Failed: inside pixels should return proper blend (Base Case 1, PURPLE)");
 						fail("Incorrect blend");
@@ -432,7 +374,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 0).equals(YELLOW));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, corners)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, corners)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, lower left corner)");
 			fail();
@@ -443,7 +385,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 3).equals(GRAY));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, corners)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, corners)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, upper left corner)");
 			fail();
@@ -454,7 +396,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(3, 0).equals(GREEN));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, corners)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, corners)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, lower right corner)");
 			fail();
@@ -465,7 +407,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(3, 3).equals(PURPLE));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, corners)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, corners)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, upper right corner)");
 			fail();
@@ -478,7 +420,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(1, 0).equals(new ColorPixel(2.0 / 3.0, 1, 0)));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, top side)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, top side)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, top side)");
 			fail("Incorrect blend");
@@ -490,7 +432,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(1, 3).equals(new ColorPixel(0.5, 1 / 3.0, 0.5)));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, top side)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, top side)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, bottom side)");
 			fail("Incorrect blend");
@@ -502,7 +444,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(3, 2).equals(new ColorPixel(1.0 / 3, 1 / 3.0, 1.0 / 3)));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, right side)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, right side)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, right side)");
 			fail("Incorrect blend");
@@ -514,7 +456,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 2).equals(new ColorPixel(2.0 / 3, 2.0 / 3.0, 1.0 / 3)));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, left side)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, left side)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, left side)");
 			fail("Incorrect blend");
@@ -528,7 +470,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(1, 1).equals(new ColorPixel(11.0 / 18, 7.0 / 9, 0.5 / 3)));
 
 		} catch (Exception e) {
-			legalArgumentException(e, "(Base Case 2, inside square)");
+			legalArgumentExceptionCatch(e, "(Base Case 2, inside square)");
 		} catch (AssertionError e) {
 			System.out.println("Failed: getPixel() does not blend appropriately (Base Case 2, inside square)");
 			fail("Incorrect blend");
@@ -544,86 +486,61 @@ public class A6JediTests {
 	public void testGradientPaintFail() {
 		// Tests that trying to paint on a monochrome picture throws an exception of the
 		// appropriate type
-		System.out.println("Testing GradientPicture Paint()...");
-
+		classPaintFail(GradientPicture.class);
+		
+		pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
 		try {
-			GradientPicture.class.getMethod("paint", int.class, int.class, Pixel.class);
-			GradientPicture.class.getMethod("paint", int.class, int.class, Pixel.class, double.class);
-			GradientPicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class);
-			GradientPicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class,
-					double.class);
-			GradientPicture.class.getMethod("paint", int.class, int.class, double.class, Pixel.class);
-			GradientPicture.class.getMethod("paint", int.class, int.class, double.class, Pixel.class, double.class);
-		} catch (Exception e) {
-			System.out.println("Failed: one or more paint methods not found");
-			fail("Paint method(s) not found");
-		}
-
-		Picture pic;
-		try {
-			pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
 			pic.paint(0, 0, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
-
+		
 		try {
-			pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
 			pic.paint(3, 4, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
-			pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
 			pic.paint(0, 0, 2, 2, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
-			pic = new GradientPicture(5, 5, BLUE, GREEN, BLACK, PINK);
 			pic.paint(0, 0, 1, 1, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
-			pic = new GradientPicture(3, 3, RED, YELLOW, ORANGE, PINK);
 			pic.paint(1, 1, 1.0, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
-			pic = new GradientPicture(3, 3, RED, YELLOW, ORANGE, PINK);
 			pic.paint(1, 1, 1.0, GREEN, 0.4);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		System.out.println("Passed!");
@@ -632,19 +549,20 @@ public class A6JediTests {
 	@Test
 	public void testGradientPictureDimensionGetters() {
 		// Tests getWidth() and getHeight()
-		System.out.println("Testing GradientPicture Dimension Getters...");
+		checkDimensionGetters(GradientPicture.class);
+		
 		try {
-			GradientPicture.class.getMethod("getWidth");
-			GradientPicture.class.getMethod("getHeight");
+			pic = new GradientPicture(2, 5, PURPLE, RED, ORANGE, GREEN);
+			assertEquals(2, pic.getWidth());
+			assertEquals(5, pic.getHeight());
+			
+		} catch (AssertionError e) {
+			System.out.println("Failed: picture must be initialized to correct width/height ");
+			fail("Exception thrown for legal argument");
 		} catch (Exception e) {
-			System.out.println("Failed: dimension getters not found");
-			fail("Dimension getters not found");
+			legalArgumentExceptionCatch(e);
 		}
-
-		pic = new GradientPicture(2, 5, PURPLE, RED, ORANGE, GREEN);
-		assertEquals(2, pic.getWidth());
-		assertEquals(5, pic.getHeight());
-
+	
 		pic = new GradientPicture(100, 6, BLUE, RED, BLUE, RED);
 		assertEquals(100, pic.getWidth());
 		assertEquals(6, pic.getHeight());
@@ -663,8 +581,7 @@ public class A6JediTests {
 		try {
 			HorizontalStackPicture.class.getConstructor(Picture.class, Picture.class);
 		} catch (Exception e) {
-			System.out.println("Failed: no such constructor found");
-			fail("No such constructor found");
+			constructorNotFound();
 		}
 
 		// Edge Cases
@@ -674,11 +591,10 @@ public class A6JediTests {
 
 			pic = new HorizontalStackPicture(pic1, pic2);
 
-			System.out.println("Failed: exception not thrown for geometrically incompatible arguments");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("geometrically incompatible arguments");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
@@ -686,11 +602,10 @@ public class A6JediTests {
 
 			pic = new HorizontalStackPicture(pic1, pic2);
 
-			System.out.println("Failed: exception not thrown for null argument");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("null argument");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
@@ -699,11 +614,10 @@ public class A6JediTests {
 
 			pic = new HorizontalStackPicture(pic1, pic2);
 
-			System.out.println("Failed: exception not thrown for null argument");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("null argument");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -719,7 +633,7 @@ public class A6JediTests {
 			pic = new HorizontalStackPicture(pic1, pic);
 
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		System.out.println("Passed!");
@@ -727,38 +641,27 @@ public class A6JediTests {
 
 	@Test
 	public void testHorizontalStackPictureFieldEncapsulation() {
-		System.out.println("Testing HorizontalStackPicture Field Encapsulation...");
-		try {
-			for (Field field : HorizontalStackPicture.class.getDeclaredFields()) {
-				if (!field.toString().contains("private") && !field.toString().contains("protected")) {
-					throw new ExposedAccessException(field);
-				}
-			}
-
-		} catch (Exception e) {
-			System.out.println("Failed: " + e.getMessage());
-			fail(e.getMessage());
-		}
-		System.out.println("Passed!");
+		classFieldEncapsulation(HorizontalStackPicture.class);
 	}
 
 	@Test
 	public void testHorizontalStackPictureDimensionGetters() {
 		// Tests getWidth() and getHeight()
-		System.out.println("Testing HorizontalStackPicture Dimension Getters...");
+		checkDimensionGetters(HorizontalStackPicture.class);
+		
 		try {
-			HorizontalStackPicture.class.getMethod("getWidth");
-			HorizontalStackPicture.class.getMethod("getHeight");
+			pic1 = new MonochromePicture(2, 2, RED);
+			pic2 = new MonochromePicture(6, 2, RED);
+			pic = new HorizontalStackPicture(pic1, pic2);
+			assertEquals(8, pic.getWidth());
+			assertEquals(2, pic.getHeight());
+			
+		} catch (AssertionError e) {
+			System.out.println("Failed: picture must be initialized to correct width/height ");
+			fail("Exception thrown for legal argument");
 		} catch (Exception e) {
-			System.out.println("Failed: dimension getters not found");
-			fail("Dimension getters not found");
+			legalArgumentExceptionCatch(e);
 		}
-
-		pic1 = new MonochromePicture(2, 2, RED);
-		pic2 = new MonochromePicture(6, 2, RED);
-		pic = new HorizontalStackPicture(pic1, pic2);
-		assertEquals(8, pic.getWidth());
-		assertEquals(2, pic.getHeight());
 
 		pic1 = new MonochromePicture(6, 3, RED);
 		pic2 = new GradientPicture(4, 3, RED, GREEN, YELLOW, BLUE);
@@ -785,56 +688,52 @@ public class A6JediTests {
 		// places.
 		// Tests that pixel returned from getPixel at those places returns the same
 		// pixels
-		System.out.println("Testing HorizontalStackPicture GetPixel()...");
-		try {
-			HorizontalStackPicture.class.getMethod("getPixel", int.class, int.class);
-		} catch (Exception e) {
-			System.out.println("Failed: getPixel() not found");
-			fail("Method not found");
-		}
+		checkGetPixel(HorizontalStackPicture.class);
 
 		// Edge Cases
-		pic1 = new GradientPicture(3, 8, RED, YELLOW, ORANGE, PINK);
+		try {
+			pic1 = new GradientPicture(3, 8, RED, YELLOW, ORANGE, PINK);
+			
+		} catch (Exception e) {
+			System.out.println("Failed: Needs a working GradientPicture");
+		}
+		
 		pic2 = new MutablePixelArrayPicture(2, 8, PURPLE);
 		pic = new HorizontalStackPicture(pic1, pic2);
 		try {
 			pic.getPixel(-1, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(5, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(4, -1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(4, 8);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -844,7 +743,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(4, 0).equals(PURPLE));
 			assertTrue(pic.getPixel(4, 7).equals(PURPLE));
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		} catch (AssertionError e) {
 			if (pic.getPixel(4, 7).equals(PINK) || pic.getPixel(0, 7).equals(PINK)) {
 				System.out.println("Failed: orientation error - (right picture is on the left)");
@@ -861,7 +760,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(2, 0).equals(YELLOW));
 			assertTrue(pic.getPixel(2, 7).equals(PINK));
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		} catch (AssertionError e) {
 			if (pic.getPixel(0, 0).equals(ORANGE) && pic.getPixel(0, 7).equals(RED)) {
 				System.out.println("Failed: orientation error - (y = 0 should be top)");
@@ -898,14 +797,7 @@ public class A6JediTests {
 	@Test
 	public void testHorizontalStackPicturePaintSinglePixel() {
 		// Tests paint(x,y,p) and paint(x,y,p,f)
-		System.out.println("Testing HorizontalStackPicture Paint() - Single Pixel...");
-		try {
-			HorizontalStackPicture.class.getMethod("paint", int.class, int.class, Pixel.class);
-			HorizontalStackPicture.class.getMethod("paint", int.class, int.class, Pixel.class, double.class);
-		} catch (Exception e) {
-			System.out.println("Failed: one or more paint methods not found");
-			fail("Paint method(s) not found");
-		}
+		checkPaint(HorizontalStackPicture.class, "Single Pixel");
 
 		// Case 1 : 2 immutable pictures
 		pic1 = new MonochromePicture(4, 4, PURPLE);
@@ -915,41 +807,37 @@ public class A6JediTests {
 		try {
 			pic.paint(0, 0, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(7, 3, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(7, 3, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Case 2 : 1 mutable picture
@@ -960,121 +848,109 @@ public class A6JediTests {
 		try {
 			pic.paint(7, 0, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(7, 0, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(4, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(-1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(3, -1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(3, 4, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(-1, 1, MY_FAVORITE_COLOR, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(3, 4, MY_FAVORITE_COLOR, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, MY_FAVORITE_COLOR, -0.1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, MY_FAVORITE_COLOR, 1.01);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(3, 3, null);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, null, 0.9);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -1082,7 +958,7 @@ public class A6JediTests {
 			pic.paint(3, 3, RED, 0);
 			assertTrue(pic.getPixel(3, 3).equals(PURPLE));
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		pic.paint(3, 3, RED, 1);
@@ -1103,41 +979,37 @@ public class A6JediTests {
 		try {
 			pic.paint(2, 2, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(2, 0, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(2, 2, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(-1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -1145,7 +1017,7 @@ public class A6JediTests {
 			pic.paint(3, 2, RED, 0);
 			assertTrue(pic.getPixel(3, 2).equals(BLACK));
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		pic.paint(3, 2, RED);
@@ -1166,7 +1038,7 @@ public class A6JediTests {
 			pic.paint(0, 0, BLUE, 1);
 			pic.paint(1, 0, RED);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		pic.paint(0, 0, RED);
@@ -1186,17 +1058,7 @@ public class A6JediTests {
 	public void testHorizontalStackPicturePaintRectangle() {
 		// Tests paint(ax, ay, bx, by, p) and paint(ax, ay, bx, by, p, f)
 		// NOTE: This test ONLY checks left to right, as per the README.
-
-		System.out.println("Testing HorizontalStackPicture Paint() - Rectangle...");
-
-		try {
-			HorizontalStackPicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class);
-			HorizontalStackPicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class,
-					double.class);
-		} catch (Exception e) {
-			System.out.println("Failed: one or more paint methods not found");
-			fail("Paint method(s) not found");
-		}
+		checkPaint(HorizontalStackPicture.class, "Rectangle");
 
 		// Case 1 : 2 immutable pictures
 		pic1 = new MonochromePicture(2, 2, BLACK);
@@ -1206,21 +1068,19 @@ public class A6JediTests {
 		try {
 			pic.paint(1, 0, 2, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 0, 2, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Case 2 : 1 mutable picture
@@ -1232,172 +1092,155 @@ public class A6JediTests {
 		try {
 			pic.paint(1, 0, 2, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(2, 0, 3, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Illegal arguments
 		try { // (-1,0) (1,1) - illegal ax
 			pic.paint(-1, 0, 1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (-1,0) (1,1) - illegal ax
 			pic.paint(-1, 0, 1, 1, MY_FAVORITE_COLOR, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,0) (4,1) - illegal bx
 			pic.paint(0, 0, 4, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,0) (4,1) - legal factor, illegal bx
 			pic.paint(0, 0, 4, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,-1) (1,1) - illegal ay
 			pic.paint(0, -1, 1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,2) (1,1) - illegal ay
 			pic.paint(0, 2, 1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,-1) (1,1) - legal factor, illegal ay
 			pic.paint(0, -1, 1, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,2) (1,1) - legal factor, illegal ay
 			pic.paint(0, 2, 1, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,1) (1,-1) - illegal by
 			pic.paint(0, 1, 1, -1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,1) (1,2) - illegal by
 			pic.paint(0, 1, 1, 2, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,1) (1,2) - legal factor, illegal by
 			pic.paint(0, 1, 1, 2, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,1) (1,0) - legal coordinates, illegal factor
 			pic.paint(0, 1, 1, 0, MY_FAVORITE_COLOR, -0.1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,0) (1,1) - legal coordinates, illegal factor
 			pic.paint(0, 0, 1, 1, MY_FAVORITE_COLOR, 1.01);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,1) (1,0) - legal coordinates, illegal pixel
 			pic.paint(0, 1, 1, 0, null);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,0) (1,1) - legal coordinates and factor, illegal pixel
 			pic.paint(0, 0, 1, 1, null, 0.2);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -1428,7 +1271,7 @@ public class A6JediTests {
 		try {
 			pic.paint(1, 1, 3, 3, BLUE);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 		// corners check
 		assertTrue(pic.getPixel(1, 1).equals(BLUE));
@@ -1439,7 +1282,7 @@ public class A6JediTests {
 		try {
 			pic.paint(1, 3, 3, 1, RED, 0.5);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 		assertTrue(pic.getPixel(1, 1).equals(PURPLE));
 		assertTrue(pic.getPixel(3, 1).equals(PURPLE));
@@ -1483,15 +1326,7 @@ public class A6JediTests {
 	@Test
 	public void testHorizontalStackPicturePaintCircle() {
 		// Tests paint(cx, cy, radius, p) and paint(cx, cy, radius, p, f);
-		System.out.println("Testing HorizontalStackPicture Paint() - Circle...");
-
-		try {
-			HorizontalStackPicture.class.getMethod("paint", int.class, int.class, double.class, Pixel.class);
-			HorizontalStackPicture.class.getMethod("paint", int.class, int.class, double.class, Pixel.class, double.class);
-		} catch (Exception e) {
-			System.out.println("Failed: one or more paint methods not found");
-			fail("Paint method(s) not found");
-		}
+		checkPaint(HorizontalStackPicture.class, "Circle");
 
 		// Case 1 : 2 immutable pictures
 		pic1 = new MonochromePicture(2, 3, BLACK);
@@ -1501,21 +1336,19 @@ public class A6JediTests {
 		try {
 			pic.paint(1, 1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Case 2 : 1 mutable picture
@@ -1527,82 +1360,74 @@ public class A6JediTests {
 		try {
 			pic.paint(1, 1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Illegal arguments
 		try {
 			pic.paint(1, 1, -0.1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal radius");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal radius");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, -1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal radius");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal radius");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 2.0, MY_FAVORITE_COLOR, -2);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 2.0, MY_FAVORITE_COLOR, 3.01);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 1, null);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 1, null, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -1613,11 +1438,10 @@ public class A6JediTests {
 		try {
 			pic.paint(3, 3, 1, MY_FAVORITE_COLOR, 0.5); // should fail at (2, 3)
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		pic = new HorizontalStackPicture(pic1, pic2); // resets
@@ -1629,7 +1453,7 @@ public class A6JediTests {
 			pic.paint(8, 9, 1, PINK, 1); // paints just (8,8)
 
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		// comprehensive check
@@ -1680,7 +1504,7 @@ public class A6JediTests {
 			pic.paint(0, 0, 1, BLUE);
 			pic.paint(6, 3, 1, RED);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		assertTrue(pic.getPixel(0, 1).equals(BLUE));
@@ -1692,7 +1516,7 @@ public class A6JediTests {
 			pic.paint(0, 3, Math.sqrt(2), BLUE, 1);
 			pic.paint(5, 4, 1, BLUE, 0.5);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		// comprehensive check
@@ -1731,7 +1555,7 @@ public class A6JediTests {
 			pic.paint(-1, -1, 7, PINK, 0.99999); // radius < |<6,4>| (or distance to (5,3))
 
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		for (int x = 0; x <= 5; x++) {
@@ -1757,8 +1581,7 @@ public class A6JediTests {
 		try {
 			VerticalStackPicture.class.getConstructor(Picture.class, Picture.class);
 		} catch (Exception e) {
-			System.out.println("Failed: no such constructor found");
-			fail("No such constructor found");
+			constructorNotFound();
 		}
 
 		// Edge Cases
@@ -1768,11 +1591,10 @@ public class A6JediTests {
 
 			pic = new VerticalStackPicture(pic1, pic2);
 
-			System.out.println("Failed: exception not thrown for geometrically incompatible arguments");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("geometrically incompatible arguments");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
@@ -1780,11 +1602,10 @@ public class A6JediTests {
 
 			pic = new VerticalStackPicture(pic1, pic2);
 
-			System.out.println("Failed: exception not thrown for null argument");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("null argument");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
@@ -1793,11 +1614,10 @@ public class A6JediTests {
 
 			pic = new VerticalStackPicture(pic1, pic2);
 
-			System.out.println("Failed: exception not thrown for null argument");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("null argument");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -1813,7 +1633,7 @@ public class A6JediTests {
 			pic = new VerticalStackPicture(pic1, pic);
 
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		System.out.println("Passed!");
@@ -1821,38 +1641,27 @@ public class A6JediTests {
 
 	@Test
 	public void testVerticalStackPictureFieldEncapsulation() {
-		System.out.println("Testing VerticalStackPicture Field Encapsulation...");
-		try {
-			for (Field field : VerticalStackPicture.class.getDeclaredFields()) {
-				if (!field.toString().contains("private") && !field.toString().contains("protected")) {
-					throw new ExposedAccessException(field);
-				}
-			}
-
-		} catch (Exception e) {
-			System.out.println("Failed: " + e.getMessage());
-			fail(e.getMessage());
-		}
-		System.out.println("Passed!");
+		classFieldEncapsulation(VerticalStackPicture.class);
 	}
 
 	@Test
 	public void testVerticalStackPictureDimensionGetters() {
 		// Tests getWidth() and getHeight()
-		System.out.println("Testing VerticalStackPicture Dimension Getters...");
-		try {
-			VerticalStackPicture.class.getMethod("getWidth");
-			VerticalStackPicture.class.getMethod("getHeight");
-		} catch (Exception e) {
-			System.out.println("Failed: dimension getters not found");
-			fail("Dimension getters not found");
-		}
+		checkDimensionGetters(VerticalStackPicture.class);
 
-		pic1 = new MonochromePicture(6, 2, RED);
-		pic2 = new MonochromePicture(6, 2, RED);
-		pic = new VerticalStackPicture(pic1, pic2);
-		assertEquals(6, pic.getWidth());
-		assertEquals(4, pic.getHeight());
+		try {
+			pic1 = new MonochromePicture(6, 2, RED);
+			pic2 = new MonochromePicture(6, 2, RED);
+			pic = new VerticalStackPicture(pic1, pic2);
+			assertEquals(6, pic.getWidth());
+			assertEquals(4, pic.getHeight());
+			
+		} catch (AssertionError e) {
+			System.out.println("Failed: picture must be initialized to correct width/height ");
+			fail("Exception thrown for legal argument");
+		} catch (Exception e) {
+			legalArgumentExceptionCatch(e);
+		}
 
 		pic1 = new MonochromePicture(4, 4, RED);
 		pic2 = new GradientPicture(4, 4, RED, GREEN, YELLOW, BLUE);
@@ -1879,13 +1688,7 @@ public class A6JediTests {
 		// places.
 		// Tests that pixel returned from getPixel at those places returns the same
 		// pixels
-		System.out.println("Testing VerticalStackPicture GetPixel()...");
-		try {
-			VerticalStackPicture.class.getMethod("getPixel", int.class, int.class);
-		} catch (Exception e) {
-			System.out.println("Failed: getPixel() not found");
-			fail("Method not found");
-		}
+		checkGetPixel(VerticalStackPicture.class);
 
 		// Edge Cases
 		pic1 = new GradientPicture(9, 7, BLACK, RED, BLUE, GREEN);
@@ -1894,41 +1697,37 @@ public class A6JediTests {
 		try {
 			pic.getPixel(-1, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(9, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(8, -1);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.getPixel(8, 14);
 
-			System.out.println("Failed: exception not thrown for attempting to get pixel at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesGetPixelCatch();			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -1971,14 +1770,7 @@ public class A6JediTests {
 	@Test
 	public void testVerticalStackPicturePaintSinglePixel() {
 		// Tests paint(x,y,p) and paint(x,y,p,f)
-		System.out.println("Testing VerticalStackPicture Paint() - Single Pixel...");
-		try {
-			VerticalStackPicture.class.getMethod("paint", int.class, int.class, Pixel.class);
-			VerticalStackPicture.class.getMethod("paint", int.class, int.class, Pixel.class, double.class);
-		} catch (Exception e) {
-			System.out.println("Failed: one or more paint methods not found");
-			fail("Paint method(s) not found");
-		}
+		checkPaint(VerticalStackPicture.class, "Single Pixel");
 
 		// Case 1 : 2 immutable pictures
 		pic1 = new MonochromePicture(1, 1, WHITE);
@@ -1988,41 +1780,37 @@ public class A6JediTests {
 		try {
 			pic.paint(0, 0, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 2, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 2, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Case 2 : 1 mutable picture
@@ -2034,122 +1822,110 @@ public class A6JediTests {
 		try {
 			pic.paint(0, 2, BLUE);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 1, BLUE, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Illegal Arguments
 		try {
 			pic.paint(-1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, -1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 0, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 3, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(-1, 1, MY_FAVORITE_COLOR, 0);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 4, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, MY_FAVORITE_COLOR, -0.1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, MY_FAVORITE_COLOR, 1.01);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, null, 0.1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 0, null, 0);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -2174,31 +1950,28 @@ public class A6JediTests {
 		try {
 			pic.paint(0, 0, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(-1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -2234,17 +2007,7 @@ public class A6JediTests {
 	public void testVerticalStackPicturePaintRectangle() {
 		// Tests paint(ax, ay, bx, by, p) and paint(ax, ay, bx, by, p, f)
 		// NOTE: This test ONLY checks left to right, as per the README.
-
-		System.out.println("Testing VerticalStackPicture Paint() - Rectangle...");
-
-		try {
-			VerticalStackPicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class);
-			VerticalStackPicture.class.getMethod("paint", int.class, int.class, int.class, int.class, Pixel.class,
-					double.class);
-		} catch (Exception e) {
-			System.out.println("Failed: one or more paint methods not found");
-			fail("Paint method(s) not found");
-		}
+		checkPaint(VerticalStackPicture.class, "Rectangle");
 
 		// Case 1 : 2 immutable pictures
 		pic1 = new MonochromePicture(2, 2, BLACK);
@@ -2254,21 +2017,19 @@ public class A6JediTests {
 		try {
 			pic.paint(0, 0, 1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 2, 1, 3, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Case 2 : 1 mutable picture
@@ -2280,152 +2041,137 @@ public class A6JediTests {
 		try {
 			pic.paint(0, 3, 1, 2, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(0, 2, 1, 0, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Illegal arguments
 		try { // (-1,2) (1,2) - illegal ax
 			pic.paint(-1, 2, 1, 2, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (-1,3) (1,2) - illegal ax
 			pic.paint(-1, 3, 1, 2, MY_FAVORITE_COLOR, 1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,2) (1,1) - legal factor, illegal ax
 			pic.paint(-1, 3, 1, 2, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,-1) (1,2) - illegal ay
 			pic.paint(0, -1, 1, 2, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,4) (1,2) - illegal ay
 			pic.paint(0, 4, 1, 2, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,-1) (1,1) - legal factor, illegal ay
 			pic.paint(0, 4, 1, 2, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,1) (1,-1) - illegal by
 			pic.paint(0, 1, 1, -1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,2) (1,-1) - illegal by
 			pic.paint(0, 2, 1, -1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,2) (1,4) - legal factor, illegal by
 			pic.paint(0, 2, 1, 4, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint at illegal coordinates");
-			fail("Exception not thrown for illegal argument");
+			illegalCoordinatesPaintCatch();;			
 		} catch (IllegalArgumentException | UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,1) (1,0) - legal coordinates, illegal factor
 			pic.paint(0, 1, 1, 0, MY_FAVORITE_COLOR, -0.1);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,0) (1,1) - legal coordinates, illegal factor
 			pic.paint(0, 0, 1, 1, MY_FAVORITE_COLOR, 1.01);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,2) (1,2) - legal coordinates, illegal pixel
 			pic.paint(0, 2, 1, 2, null);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try { // (0,3) (1,3) - legal coordinates and factor, illegal pixel
 			pic.paint(0, 3, 1, 3, null, 0.2);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -2439,7 +2185,7 @@ public class A6JediTests {
 			System.out.print("Failed: attempted to paint immutable area");
 			fail("Unsupported Operation");
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 		
 		try {
@@ -2449,7 +2195,7 @@ public class A6JediTests {
 			assertTrue(pic.getPixel(0, 1).equals(WHITE));
 		
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 		
 		pic1 = new MonochromePicture(2, 2, WHITE);
@@ -2473,7 +2219,7 @@ public class A6JediTests {
 		try {
 			pic.paint(0, 7, 3, 4, BLUE);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		// corners check
@@ -2486,7 +2232,7 @@ public class A6JediTests {
 			pic.paint(1, 1, 3, 7, RED, 0.5);
 			pic.paint(0, 7, 0, 0, GREEN, 1.0);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 		assertTrue(pic.getPixel(1, 1).equals(PURPLE));
 		assertTrue(pic.getPixel(3, 1).equals(PURPLE));
@@ -2537,16 +2283,7 @@ public class A6JediTests {
 	@Test
 	public void testVerticalStackPicturePaintCircle() {
 		// Tests paint(cx, cy, radius, p) and paint(cx, cy, radius, p, f);
-		System.out.println("Testing VerticalStackPicture Paint() - Circle...");
-
-		try {
-			VerticalStackPicture.class.getMethod("paint", int.class, int.class, double.class, Pixel.class);
-			VerticalStackPicture.class.getMethod("paint", int.class, int.class, double.class, Pixel.class,
-					double.class);
-		} catch (Exception e) {
-			System.out.println("Failed: one or more paint methods not found");
-			fail("Paint method(s) not found");
-		}
+		checkPaint(VerticalStackPicture.class, "Circle");
 
 		// Case 1 : 2 immutable pictures
 		pic1 = new MonochromePicture(3, 1, BLACK);
@@ -2556,21 +2293,19 @@ public class A6JediTests {
 		try {
 			pic.paint(1, 1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Case 2 : 1 mutable picture
@@ -2582,82 +2317,74 @@ public class A6JediTests {
 		try {
 			pic.paint(1, 1, 1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Illegal arguments
 		try {
 			pic.paint(1, 1, -0.1, MY_FAVORITE_COLOR);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal radius");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal radius");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, -1, MY_FAVORITE_COLOR, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal radius");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal radius");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 2.0, MY_FAVORITE_COLOR, -2);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 2.0, MY_FAVORITE_COLOR, 3.01);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal blend factor");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal blend factor");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 1, null);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		try {
 			pic.paint(1, 1, 1, null, 0.5);
 
-			System.out.println("Failed: exception not thrown for attempting to paint with illegal pixel");
-			fail("Exception not thrown for illegal argument");
+			unthrownExceptionCatch("attempting to paint with illegal pixel");			
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		// Base Cases
@@ -2668,11 +2395,10 @@ public class A6JediTests {
 		try {
 			pic.paint(3, 3, 1, MY_FAVORITE_COLOR, 0.5); // should fail at (3, 2)
 
-			System.out.println("Failed: exception not thrown for unsupported operation");
-			fail("Exception not thrown for illegal argument");
+			unthrownUnsupportedOperationExceptionCatch();
 		} catch (UnsupportedOperationException e) {
 		} catch (Exception e) {
-			incorrectException(e);
+			incorrectExceptionCatch(e);
 		}
 
 		pic1 = new MonochromePicture(9, 3, BLACK);
@@ -2686,7 +2412,7 @@ public class A6JediTests {
 			pic.paint(8, 9, 1, PINK, 1); // paints just (8,8)
 
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		// comprehensive check
@@ -2737,7 +2463,7 @@ public class A6JediTests {
 			pic.paint(0, 0, 1, BLUE);
 			pic.paint(3, 6, 1, RED);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		assertTrue(pic.getPixel(0, 1).equals(BLUE));
@@ -2749,7 +2475,7 @@ public class A6JediTests {
 			pic.paint(3, 0, Math.sqrt(2), BLUE, 1);
 			pic.paint(4, 5, 1, BLUE, 0.5);
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		// comprehensive check
@@ -2788,7 +2514,7 @@ public class A6JediTests {
 			pic.paint(-1, -1, 7, PINK, 0.99999); // radius < |<4,6>| (or distance to (3,5))
 
 		} catch (Exception e) {
-			legalArgumentException(e);
+			legalArgumentExceptionCatch(e);
 		}
 
 		for (int x = 0; x <= 3; x++) {
@@ -2806,23 +2532,6 @@ public class A6JediTests {
 		}
 
 		System.out.println("Passed!");
-	}
-
-	public void incorrectException(Exception e) {
-		System.out.println("Failed: correct exception not thrown");
-		e.printStackTrace();
-		System.out.println();
-		fail("Correct Exception not thrown");
-	}
-	
-	public void legalArgumentException(Exception e) {
-		legalArgumentException(e, "");
-	}
-	
-	public void legalArgumentException(Exception e, String message) {
-		System.out.println("Failed: exception thrown for legal argument(s) " + message);
-		e.printStackTrace();
-		fail("Exception thrown for legal argument");
 	}
 
 }
