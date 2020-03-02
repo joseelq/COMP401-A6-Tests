@@ -150,8 +150,7 @@ public class A6AdeptTests {
 			pic = new MutablePixelArrayPicture(pixels);
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		System.out.println("Passed!");
@@ -229,8 +228,7 @@ public class A6AdeptTests {
 			pic = new MutablePixelArrayPicture(3, 2, new GrayPixel(0.2));
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		System.out.println("Passed!");
@@ -297,8 +295,7 @@ public class A6AdeptTests {
 			pic = new MutablePixelArrayPicture(2, 2);
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		try {
@@ -308,8 +305,7 @@ public class A6AdeptTests {
 			System.out.println("Failed: intial value must be initialized to correct color");
 			fail("Exception thrown for legal argument");
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments/getPixel() is not working");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		System.out.println("Passed!");
@@ -327,7 +323,7 @@ public class A6AdeptTests {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Failed: " + e.getMessage());
+			System.out.println("Failed: " + e.toString());
 			fail(e.getMessage());
 		}
 		System.out.println("Passed!");
@@ -376,8 +372,7 @@ public class A6AdeptTests {
 			System.out.println("Failed: picture must be initialized to correct width/height ( MPAP(pixel_array) )");
 			fail("Exception thrown for legal argument");
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments ( MPAP(width, height, pixel_array) )");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e, "( MPAP(pixel_array) )");
 		}
 		
 		try {
@@ -393,8 +388,7 @@ public class A6AdeptTests {
 			System.out.println("Failed: picture must be initialized to correct width/height ( MPAP(width, height, init_value) )");
 			fail("Exception thrown for legal argument");
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments ( MPAP(width, height, init_value) )");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e, "( MPAP(width, height, init_value) )");
 		}
 
 		try {
@@ -405,8 +399,7 @@ public class A6AdeptTests {
 			System.out.println("Failed: picture must be initialized to correct width/height ( MPAP(width, height) )");
 			fail("Exception thrown for legal argument");
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments ( MPAP(width, height) )");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e, "( MPAP(width, height) )");
 		}
 
 		System.out.println("Passed!");
@@ -1003,8 +996,7 @@ public class A6AdeptTests {
 			pic.paint(8, 11, 1, MY_FAVORITE_COLOR); // paints just (8,10)
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		for (int x = 0; x < pic.getWidth(); x++) {
@@ -1037,8 +1029,7 @@ public class A6AdeptTests {
 			pic.paint(4, 5, Math.sqrt(2), PINK); // paints in box (diagonals are 1 * sqrt(2));
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		for (int x = 3; x <= 5; x++) {
@@ -1076,8 +1067,7 @@ public class A6AdeptTests {
 			pic.paint(8, 11, 1, BLUE, 0.5); // paints just (8,10)
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		for (int x = 0; x < pic.getWidth(); x++) {
@@ -1120,8 +1110,7 @@ public class A6AdeptTests {
 			pic.paint(5, 4, 20, ORANGE);
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		for (int x = 0; x < pic.getWidth(); x++) {
@@ -1134,8 +1123,7 @@ public class A6AdeptTests {
 			pic.paint(5, 4, 20, YELLOW, 0.5);
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		Pixel mix = new ColorPixel(1, 14.0 / 17, 0);
@@ -1217,8 +1205,7 @@ public class A6AdeptTests {
 			pic = new MonochromePicture(3, 2, new GrayPixel(0.2));
 
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		System.out.println("Passed!");
@@ -1240,7 +1227,7 @@ public class A6AdeptTests {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Failed: " + e.getMessage());
+			System.out.println("Failed: " + e.toString());
 			fail(e.getMessage());
 		}
 		System.out.println("Passed!");
@@ -1434,8 +1421,7 @@ public class A6AdeptTests {
 			System.out.println("Failed: picture must be initialized to correct width/height ");
 			fail("Exception thrown for legal argument");
 		} catch (Exception e) {
-			System.out.println("Failed: exception thrown for legal arguments");
-			fail("Exception thrown for legal argument");
+			legalArgumentException(e);
 		}
 
 		pic = new MonochromePicture(100, 6, BLUE);
@@ -1449,11 +1435,21 @@ public class A6AdeptTests {
 		System.out.println("Passed!");
 	}
 
-	public static void incorrectException(Exception e) { // writing this repeatedly is redundant asf
+	public void incorrectException(Exception e) {
 		System.out.println("Failed: correct exception not thrown");
 		e.printStackTrace();
 		System.out.println();
 		fail("Correct Exception not thrown");
+	}
+	
+	public void legalArgumentException(Exception e) {
+		legalArgumentException(e, "");
+	}
+	
+	public void legalArgumentException(Exception e, String message) {
+		System.out.println("Failed: exception thrown for legal argument(s) " + message);
+		e.printStackTrace();
+		fail("Exception thrown for legal argument");
 	}
 
 }
