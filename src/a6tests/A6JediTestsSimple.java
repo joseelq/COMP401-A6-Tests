@@ -12,18 +12,12 @@ import a6.*;
 //These also don't test for several other things that KMP's solution on gradescope doesn't account for, including:
 //1) GradientPicture getPixel() edge case where width or height == 1
 //2) Proper Encapsulation
-public class A6JediTestsSimple extends A6Helper{
+public class A6JediTestsSimple extends A6Helper {
 	
 	@Test
 	public void testGradientPictureConstructor() {
 		// Tests the constructor for GradientPicture
 		System.out.println("Testing GradientPicture Constructor...");
-		try {
-			GradientPicture.class.getConstructor(int.class, int.class, Pixel.class, Pixel.class, Pixel.class,
-					Pixel.class);
-		} catch (Exception e) {
-			constructorNotFound();
-		}
 
 		// Edge Cases
 		try {
@@ -119,7 +113,6 @@ public class A6JediTestsSimple extends A6Helper{
 		// constructor
 		checkGetPixel(GradientPicture.class);
 
-
 		// Edge Cases
 		pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
 		try {
@@ -202,7 +195,6 @@ public class A6JediTestsSimple extends A6Helper{
 
 		// corners check
 		try {
-
 			assertTrue(pic.getPixel(0, 0).equals(YELLOW));
 
 		} catch (Exception e) {
@@ -213,7 +205,6 @@ public class A6JediTestsSimple extends A6Helper{
 		}
 
 		try {
-
 			assertTrue(pic.getPixel(0, 3).equals(GRAY));
 
 		} catch (Exception e) {
@@ -224,7 +215,6 @@ public class A6JediTestsSimple extends A6Helper{
 		}
 
 		try {
-
 			assertTrue(pic.getPixel(3, 0).equals(GREEN));
 
 		} catch (Exception e) {
@@ -235,7 +225,6 @@ public class A6JediTestsSimple extends A6Helper{
 		}
 
 		try {
-
 			assertTrue(pic.getPixel(3, 3).equals(PURPLE));
 
 		} catch (Exception e) {
@@ -354,20 +343,15 @@ public class A6JediTestsSimple extends A6Helper{
 	public void testHorizontalStackPictureConstructor() {
 		// Tests horizontal stack picture constructor
 		System.out.println("Testing HorizontalStackPicture Constructor...");
-		try {
-			HorizontalStackPicture.class.getConstructor(Picture.class, Picture.class);
-		} catch (Exception e) {
-			constructorNotFound();
-		}
 
 		// Edge Cases
 		try {
 			pic1 = new MonochromePicture(5, 3, RED);
-			pic2 = new GradientPicture(5, 4, RED, GREEN, YELLOW, BLUE);
+			pic2 = new MutablePixelArrayPicture(5, 4, BLUE);
 
 			pic = new HorizontalStackPicture(pic1, pic2);
 
-			unthrownExceptionCatch("geometrically incompatible arguments");			
+			unthrownExceptionCatch("geometrically incompatible arguments");		
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
 			incorrectExceptionCatch(e);
@@ -399,10 +383,10 @@ public class A6JediTestsSimple extends A6Helper{
 		// Base Cases
 		try {
 			pic1 = new MonochromePicture(5, 3, RED);
-			pic2 = new GradientPicture(5, 3, RED, GREEN, YELLOW, BLUE);
+			pic2 = new MonochromePicture(5, 3, GREEN);
 			pic = new HorizontalStackPicture(pic1, pic2);
 
-			pic2 = new GradientPicture(2, 3, RED, GREEN, YELLOW, BLUE);
+			pic2 = new MutablePixelArrayPicture(2, 3, BLUE);
 			pic = new HorizontalStackPicture(pic, pic2);
 
 			pic1 = new MutablePixelArrayPicture(4, 3);
@@ -1329,11 +1313,6 @@ public class A6JediTestsSimple extends A6Helper{
 	public void testVerticalStackPictureConstructor() {
 		// Tests vertical stack picture constructor
 		System.out.println("Testing VerticalStackPicture Constructor...");
-		try {
-			VerticalStackPicture.class.getConstructor(Picture.class, Picture.class);
-		} catch (Exception e) {
-			constructorNotFound();
-		}
 
 		// Edge Cases
 		try {
