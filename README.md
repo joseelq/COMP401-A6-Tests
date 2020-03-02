@@ -12,5 +12,5 @@ glhf
 Edit: it passes the autograder test, so it's pretty unlikely the test is wrong. If you full pass this, you'll most likely full 
 pass the autograder too.
 
-Edit: I added an A6JediTestsSimple to account for the "correct" solution posted on the tester gradescope. It doesn't test for a
-few things that the original JediTests do, and it also doesn't try to assume any of your Jedi classes are fully functional yet.
+Edit: I added an A6JediTestsSimple modeled after the "correct" solution posted on the tester gradescope. It doesn't test for a
+few things that the original JediTests do, so you should have an easier time passing it.
