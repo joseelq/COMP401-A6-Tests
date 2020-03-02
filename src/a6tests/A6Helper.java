@@ -77,6 +77,65 @@ public class A6Helper {
 		}
 	}
 	
+	public void testPaintFail() {
+		
+		try {
+			pic.paint(0, 0, BLUE);
+
+			unthrownUnsupportedOperationExceptionCatch();
+		} catch (UnsupportedOperationException e) {
+		} catch (Exception e) {
+			incorrectExceptionCatch(e);
+		}
+		
+		try {
+			pic.paint(3, 4, BLUE, 0.5);
+
+			unthrownUnsupportedOperationExceptionCatch();
+		} catch (UnsupportedOperationException e) {
+		} catch (Exception e) {
+			incorrectExceptionCatch(e);
+		}
+
+		try {
+			pic.paint(0, 0, 2, 2, BLUE);
+
+			unthrownUnsupportedOperationExceptionCatch();
+		} catch (UnsupportedOperationException e) {
+		} catch (Exception e) {
+			incorrectExceptionCatch(e);
+		}
+
+		try {
+			pic.paint(0, 0, 1, 1, GRAY, 0.5);
+
+			unthrownUnsupportedOperationExceptionCatch();
+		} catch (UnsupportedOperationException e) {
+		} catch (Exception e) {
+			incorrectExceptionCatch(e);
+		}
+
+		try {
+			pic.paint(1, 1, 1.0, PURPLE);
+
+			unthrownUnsupportedOperationExceptionCatch();
+		} catch (UnsupportedOperationException e) {
+		} catch (Exception e) {
+			incorrectExceptionCatch(e);
+		}
+
+		try {
+			pic.paint(1, 1, 1.0, MY_FAVORITE_COLOR, 0.4);
+
+			unthrownUnsupportedOperationExceptionCatch();
+		} catch (UnsupportedOperationException e) {
+		} catch (Exception e) {
+			incorrectExceptionCatch(e);
+		}
+
+		System.out.println("Passed!");
+	}
+	
 	public void checkPaint(Class c, String key) {
 		System.out.println("Testing " + c.getSimpleName() + " Paint() - " + key + "...");
 

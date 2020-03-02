@@ -1167,68 +1167,9 @@ public class A6AdeptTests extends A6Helper {
 		// Tests that trying to paint on a monochrome picture throws an exception of the
 		// appropriate type
 		classPaintFail(MonochromePicture.class);
-
-		try {
-			pic = new MonochromePicture(1, 1, YELLOW);
-			pic.paint(0, 0, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic = new MonochromePicture(1, 1, YELLOW);
-			pic.paint(0, 0, BLUE, 0.5);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic = new MonochromePicture(3, 3, YELLOW);
-			pic.paint(0, 0, 1, 1, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic = new MonochromePicture(3, 3, YELLOW);
-			pic.paint(0, 0, 1, 1, BLUE, 0.5);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic = new MonochromePicture(3, 3, YELLOW);
-			pic.paint(1, 1, 1.0, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic = new MonochromePicture(3, 3, YELLOW);
-			pic.paint(1, 1, 1.0, BLUE, 0.5);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		System.out.println("Passed!");
+		pic = new MonochromePicture(6, 5, YELLOW);
+		testPaintFail();
+		
 	}
 
 	

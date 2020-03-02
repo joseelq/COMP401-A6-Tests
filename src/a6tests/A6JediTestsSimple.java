@@ -10,10 +10,12 @@ import org.junit.jupiter.api.Test;
 import a6.*;
 
 
-// To completely pass these tests, each Picture class must be fully functional in order of assignment 
-// (i.e., HorizontalStackPicture tests will use GradientPictures, VerticalStackPicture tests
-// will use both)
-public class A6JediTests extends A6Helper{
+//A simpler version of A6JediTests that does not require functional Jedi classes as a prerequisite
+
+//These also don't test for several other things that KMP's solution on gradescope doesn't account for, including:
+//1) GradientPicture getPixel() edge case where width or height == 1
+//2) Proper Encapsulation
+public class A6JediTestsSimple extends A6Helper{
 
 	@Test
 	public void testGradientPictureConstructor() {
@@ -26,7 +28,6 @@ public class A6JediTests extends A6Helper{
 			constructorNotFound();
 		}
 
-		Picture pic;
 		// Edge Cases
 		try {
 			pic = new GradientPicture(0, 1, ORANGE, RED, RED, RED);
@@ -116,11 +117,6 @@ public class A6JediTests extends A6Helper{
 	}
 
 	@Test
-	public void testGradientPictureFieldEncapsulation() {
-		classFieldEncapsulation(GradientPicture.class);
-	}
-
-	@Test
 	public void testGradientPictureGetPixel() {
 		// Tests that the pixel returned by getPixel is the same one given to the
 		// constructor
@@ -163,167 +159,6 @@ public class A6JediTests extends A6Helper{
 		} catch (IllegalArgumentException e) {
 		} catch (Exception e) {
 			incorrectExceptionCatch(e);
-		}
-
-		// Edge Cases: Width || Height == 1
-		// Case : W == H == 1
-		boolean passesEdgeCase = true;
-		try {
-			pic = new GradientPicture(1, 1, RED, RED, RED, RED);
-			assertTrue(pic.getPixel(0, 0).equals(RED));
-
-		} catch (Exception e) {
-			legalArgumentExceptionCatch(e, "(width = 1 && height == 1)");
-		} catch (AssertionError e) {
-			if (!pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
-				System.out.println("Failed: does not account for width = 1 or height = 1");
-				passesEdgeCase = false;
-			} else { 
-				System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height = 1) - should return RED");
-				fail();
-			}
-		}
-
-		try {
-
-			pic = new GradientPicture(1, 1, RED, RED, BLUE, BLUE);
-			assertTrue(pic.getPixel(0, 0).equals(PURPLE));
-
-			pic = new GradientPicture(1, 1, BLUE, BLUE, RED, RED);
-			assertTrue(pic.getPixel(0, 0).equals(PURPLE));
-
-			pic = new GradientPicture(1, 1, RED, BLUE, RED, BLUE);
-			assertTrue(pic.getPixel(0, 0).equals(PURPLE));
-
-			pic = new GradientPicture(1, 1, BLUE, RED, BLUE, RED);
-			assertTrue(pic.getPixel(0, 0).equals(PURPLE));
-
-			pic = new GradientPicture(1, 1, BLUE, RED, RED, BLUE);
-			assertTrue(pic.getPixel(0, 0).equals(PURPLE));
-
-			pic = new GradientPicture(1, 1, RED, BLUE, BLUE, RED);
-			assertTrue(pic.getPixel(0, 0).equals(PURPLE));
-		} catch (Exception e) {
-			legalArgumentExceptionCatch(e, "(width = 1 && height == 1)");
-		} catch (AssertionError e) {
-			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
-				System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height = 1) - should return PURPLE");
-				fail();
-			}
-		}
-
-		// Case : H == 2
-		try {
-			pic = new GradientPicture(1, 2, BLACK, WHITE, WHITE, BLACK);
-			assertTrue(pic.getPixel(0, 0).equals(GRAY));
-			assertTrue(pic.getPixel(0, 1).equals(GRAY));
-
-			pic = new GradientPicture(1, 2, BLACK, WHITE, BLACK, WHITE);
-			assertTrue(pic.getPixel(0, 0).equals(GRAY));
-			assertTrue(pic.getPixel(0, 1).equals(GRAY));
-
-		} catch (Exception e) {
-			legalArgumentExceptionCatch(e, "(width = 1 && height == 2)");
-		} catch (AssertionError e) {
-			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
-				System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 2)");
-				fail();
-			} else {
-				System.out.println("Failed: does not account for width = 1");
-				passesEdgeCase = false;
-			}
-		}
-
-		try {
-			pic = new GradientPicture(1, 2, BLACK, BLACK, WHITE, WHITE);
-			assertTrue(pic.getPixel(0, 0).equals(BLACK));
-			assertTrue(pic.getPixel(0, 1).equals(WHITE));
-		} catch (Exception e) {
-			legalArgumentExceptionCatch(e, "(width = 1 && height == 2)");
-		} catch (AssertionError e) {
-			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 2)");
-			if (pic.getPixel(0, 0).equals(WHITE) && pic.getPixel(0, 1).equals(BLACK)) {
-				System.out.println("Orientation error (y = 0 should be top)");
-			}
-			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
-				fail();
-			}
-		}
-
-		// Case: H == 3
-		try {
-			pic = new GradientPicture(1, 3, BLACK, BLACK, WHITE, WHITE);
-			assertTrue(pic.getPixel(0, 0).equals(BLACK));
-			assertTrue(pic.getPixel(0, 1).equals(GRAY));
-			assertTrue(pic.getPixel(0, 2).equals(WHITE));
-
-		} catch (Exception e) {
-			legalArgumentExceptionCatch(e, "(width = 1 && height == 3)");
-		} catch (AssertionError e) {
-			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 3)");
-			if (pic.getPixel(0, 0).equals(WHITE) && pic.getPixel(0, 2).equals(BLACK)) {
-				System.out.println("Orientation error (y = 0 should be top)");
-			}
-			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
-				fail();
-			}
-		}
-
-		// Case: W == 2
-		try {
-			pic = new GradientPicture(2, 1, BLACK, WHITE, WHITE, BLACK);
-			assertTrue(pic.getPixel(0, 0).equals(GRAY));
-			assertTrue(pic.getPixel(1, 0).equals(GRAY));
-
-			pic = new GradientPicture(2, 1, BLACK, BLACK, WHITE, WHITE);
-			assertTrue(pic.getPixel(0, 0).equals(GRAY));
-			assertTrue(pic.getPixel(1, 0).equals(GRAY));
-
-		} catch (Exception e) {
-			legalArgumentExceptionCatch(e, "(width = 2 && height == 1)");
-		} catch (AssertionError e) {
-			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 2 && height == 1)");
-			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
-				fail();
-			} else {
-				System.out.println("Failed: does not account for height = 1");
-				passesEdgeCase = false;
-			}
-			
-		}
-
-		try {
-			pic = new GradientPicture(2, 1, BLACK, WHITE, BLACK, WHITE);
-			assertTrue(pic.getPixel(0, 0).equals(BLACK));
-			assertTrue(pic.getPixel(1, 0).equals(WHITE));
-		} catch (Exception e) {
-			legalArgumentExceptionCatch(e, "(width = 2 && height == 1)");
-		} catch (AssertionError e) {
-			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 1 && height == 3)");
-			if (pic.getPixel(0, 0).equals(WHITE) && pic.getPixel(1, 0).equals(BLACK)) {
-				System.out.println("Orientation error (x = 0 should be left)");
-			}
-			
-			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
-				fail();
-			}
-		}
-
-		// Case : W == 3
-		try {
-			pic = new GradientPicture(3, 1, BLACK, WHITE, BLACK, WHITE);
-			assertTrue(pic.getPixel(0, 0).equals(BLACK));
-			assertTrue(pic.getPixel(1, 0).equals(GRAY));
-			assertTrue(pic.getPixel(2, 0).equals(WHITE));
-
-		} catch (Exception e) {
-			legalArgumentExceptionCatch(e, "(width = 3 && height == 1)");
-		} catch (AssertionError e) {
-			System.out.println("Failed: getPixel() does not blend appropriately for case (width = 3 && height == 1)");
-			if (pic.getPixel(0, 0).equals(pic.getPixel(0, 0))) {
-				fail();
-			} 
-			
 		}
 
 		// Base Cases
@@ -476,9 +311,7 @@ public class A6JediTests extends A6Helper{
 			fail("Incorrect blend");
 		}
 
-		if (passesEdgeCase) {
-			System.out.println("Passed!");
-		}
+		System.out.println("Passed!");
 
 	}
 
@@ -487,63 +320,9 @@ public class A6JediTests extends A6Helper{
 		// Tests that trying to paint on a monochrome picture throws an exception of the
 		// appropriate type
 		classPaintFail(GradientPicture.class);
-		
 		pic = new GradientPicture(5, 5, RED, YELLOW, ORANGE, PINK);
-		try {
-			pic.paint(0, 0, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
+		testPaintFail();
 		
-		try {
-			pic.paint(3, 4, BLUE, 0.5);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic.paint(0, 0, 2, 2, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic.paint(0, 0, 1, 1, BLUE, 0.5);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic.paint(1, 1, 1.0, BLUE);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		try {
-			pic.paint(1, 1, 1.0, GREEN, 0.4);
-
-			unthrownUnsupportedOperationExceptionCatch();
-		} catch (UnsupportedOperationException e) {
-		} catch (Exception e) {
-			incorrectExceptionCatch(e);
-		}
-
-		System.out.println("Passed!");
 	}
 
 	@Test
@@ -637,11 +416,6 @@ public class A6JediTests extends A6Helper{
 		}
 
 		System.out.println("Passed!");
-	}
-
-	@Test
-	public void testHorizontalStackPictureFieldEncapsulation() {
-		classFieldEncapsulation(HorizontalStackPicture.class);
 	}
 
 	@Test
@@ -770,27 +544,6 @@ public class A6JediTests extends A6Helper{
 			fail();
 		}
 
-		// Encapsulation Edge Cases (if required, makes the problem set a little more
-		// challenging)
-		try {
-			pic2.paint(0, 0, MY_FAVORITE_COLOR);
-
-			assertFalse(pic2.getPixel(0, 0).equals(pic.getPixel(3, 0)));
-		} catch (AssertionError e) {
-			System.out.println("Note: source pictures not properly encapsulated");
-//			fail("Improper encapsulation");
-		}
-
-		try {
-			pic = new HorizontalStackPicture(pic2, pic1);
-			pic2.paint(0, 0, GREEN);
-
-			assertFalse(pic2.getPixel(0, 0).equals(pic.getPixel(0, 0)));
-		} catch (AssertionError e) {
-			System.out.println("Note: source pictures not properly encapsulated");
-//			fail("Improper encapsulation");
-		}
-
 		System.out.println("Passed!");
 	}
 
@@ -801,7 +554,7 @@ public class A6JediTests extends A6Helper{
 
 		// Case 1 : 2 immutable pictures
 		pic1 = new MonochromePicture(4, 4, PURPLE);
-		pic2 = new GradientPicture(4, 4, YELLOW, GREEN, GRAY, PURPLE);
+		pic2 = new MonochromePicture(4, 4, YELLOW);
 		pic = new HorizontalStackPicture(pic1, pic2);
 
 		try {
@@ -1496,7 +1249,6 @@ public class A6JediTests extends A6Helper{
 		}
 
 		// Case 3 : 2 mutable pictures
-
 		pic1 = new MutablePixelArrayPicture(2, 4, RED);
 		pic2 = new MutablePixelArrayPicture(checkerboard);
 		pic = new HorizontalStackPicture(pic1, pic2); // 6 x 4
@@ -1588,7 +1340,7 @@ public class A6JediTests extends A6Helper{
 
 		// Edge Cases
 		try {
-			pic1 = new GradientPicture(8, 7, RED, GREEN, YELLOW, BLUE);
+			pic1 = new MutablePixelArrayPicture(1, 7, GREEN);
 			pic2 = new MutablePixelArrayPicture(10, 7, RED);
 
 			pic = new VerticalStackPicture(pic1, pic2);
@@ -1625,11 +1377,8 @@ public class A6JediTests extends A6Helper{
 		// Base Cases
 		try {
 			pic1 = new MonochromePicture(4, 4, RED);
-			pic2 = new GradientPicture(4, 4, RED, GREEN, YELLOW, BLUE);
+			pic2 = new MonochromePicture(4, 4, YELLOW);
 			pic = new VerticalStackPicture(pic1, pic2);
-
-			pic2 = new HorizontalStackPicture(new MutablePixelArrayPicture(3, 3), new MonochromePicture(1, 3, ORANGE));
-			pic = new VerticalStackPicture(pic, pic2);
 
 			pic1 = new MutablePixelArrayPicture(4, 10);
 			pic = new VerticalStackPicture(pic1, pic);
@@ -1639,11 +1388,6 @@ public class A6JediTests extends A6Helper{
 		}
 
 		System.out.println("Passed!");
-	}
-
-	@Test
-	public void testVerticalStackPictureFieldEncapsulation() {
-		classFieldEncapsulation(VerticalStackPicture.class);
 	}
 
 	@Test
@@ -1666,20 +1410,16 @@ public class A6JediTests extends A6Helper{
 		}
 
 		pic1 = new MonochromePicture(4, 4, RED);
-		pic2 = new GradientPicture(4, 4, RED, GREEN, YELLOW, BLUE);
+		pic2 = new MutablePixelArrayPicture(4, 4);
 		pic = new VerticalStackPicture(pic1, pic2);
 		assertEquals(4, pic.getWidth());
 		assertEquals(8, pic.getHeight());
 
-		pic2 = new HorizontalStackPicture(new MutablePixelArrayPicture(3, 3), new MonochromePicture(1, 3, ORANGE));
+		pic2 = new MutablePixelArrayPicture(new Pixel[][] 
+				{{ BLACK } , { BLACK } , { BLACK } , { BLUE }});
 		pic = new VerticalStackPicture(pic, pic2);
 		assertEquals(4, pic.getWidth());
-		assertEquals(11, pic.getHeight());
-
-		pic1 = new MutablePixelArrayPicture(4, 10);
-		pic = new VerticalStackPicture(pic1, pic);
-		assertEquals(4, pic.getWidth());
-		assertEquals(21, pic.getHeight());
+		assertEquals(9, pic.getHeight());
 
 		System.out.println("Passed!");
 	}
@@ -1693,7 +1433,7 @@ public class A6JediTests extends A6Helper{
 		checkGetPixel(VerticalStackPicture.class);
 
 		// Edge Cases
-		pic1 = new GradientPicture(9, 7, BLACK, RED, BLUE, GREEN);
+		pic1 = new MonochromePicture(9, 7, BLACK);
 		pic2 = new MonochromePicture(9, 7, WHITE);
 		pic = new VerticalStackPicture(pic1, pic2);
 		try {
@@ -1735,35 +1475,11 @@ public class A6JediTests extends A6Helper{
 		// Base Cases
 		assertTrue(pic.getPixel(0, 13).equals(WHITE));
 		assertTrue(pic.getPixel(8, 7).equals(WHITE));
-		assertTrue(pic.getPixel(0, 6).equals(BLUE));
-		assertTrue(pic.getPixel(8, 6).equals(GREEN));
+		assertTrue(pic.getPixel(0, 6).equals(BLACK));
+		assertTrue(pic.getPixel(8, 6).equals(BLACK));
 		assertTrue(pic.getPixel(0, 0).equals(BLACK));
-		assertTrue(pic.getPixel(5, 3).equals(pic1.getPixel(5, 3)));
-		assertTrue(pic.getPixel(8, 0).equals(RED));
-
-		// Encapsulation Edge Cases (if required, makes the problem set a little more
-		// challenging)
-		try {
-			pic2 = new MutablePixelArrayPicture(9, 5, WHITE);
-			pic = new VerticalStackPicture(pic1, pic2);
-
-			pic2.paint(0, 1, MY_FAVORITE_COLOR);
-
-			assertFalse(pic2.getPixel(0, 1).equals(pic.getPixel(0, 1)));
-		} catch (AssertionError e) {
-			System.out.println("Note: source pictures not properly encapsulated");
-//			fail("Improper encapsulation");
-		}
-
-		try {
-			pic = new VerticalStackPicture(pic2, pic1);
-			pic2.paint(2, 2, ORANGE);
-
-			assertFalse(pic2.getPixel(2, 2).equals(pic.getPixel(2, 10)));
-		} catch (AssertionError e) {
-			System.out.println("Note: source pictures not properly encapsulated");
-//			fail("Improper encapsulation");
-		}
+		assertTrue(pic.getPixel(5, 3).equals(BLACK));
+		assertTrue(pic.getPixel(8, 0).equals(BLACK));
 
 		System.out.println("Passed!");
 
@@ -1776,7 +1492,7 @@ public class A6JediTests extends A6Helper{
 
 		// Case 1 : 2 immutable pictures
 		pic1 = new MonochromePicture(1, 1, WHITE);
-		pic2 = new GradientPicture(1, 2, RED, BLUE, BLUE, RED);
+		pic2 = new MonochromePicture(1, 2, RED);
 		pic = new VerticalStackPicture(pic1, pic2);
 
 		try {
@@ -2212,8 +1928,7 @@ public class A6JediTests extends A6Helper{
 		assertTrue(pic.getPixel(1, 2).equals(WHITE));
 
 		// Case 3 : 2 mutable pictures
-		pic1 = new HorizontalStackPicture(new MutablePixelArrayPicture(2, 4, GREEN), 
-				new MutablePixelArrayPicture(2, 4, GREEN));
+		pic1 = new MutablePixelArrayPicture(4, 4, GREEN);
 		pic2 = new MutablePixelArrayPicture(checkerboard);
 		pic = new VerticalStackPicture(pic2, pic1);
 
